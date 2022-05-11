@@ -8,5 +8,5 @@ public class Constants {
     public static final String MSG_ADD_SUCCESS = "messageKhachHangThem";
     public static final String MSG_EDIT_SUCCESS = "messageKhachHangSua";
     public static final String MSG_ADD_BILL = "messageHoaDonThem";
-
+    public static final String MSG_DELETE_CUSTOMER_SUCCESS = "messageDeleteCustomer";
 }

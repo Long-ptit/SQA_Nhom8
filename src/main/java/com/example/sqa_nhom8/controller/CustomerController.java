@@ -27,6 +27,11 @@ public class CustomerController {
             model.addAttribute("messageKhachHangSua", "Sửa khách hàng thành công");
             session.setAttribute(Constants.MSG_EDIT_SUCCESS, false);
         }
+
+        if ((boolean) session.getAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS)) {
+            model.addAttribute("messageKhachHangXoa", "Xóa khách hàng thành công");
+            session.setAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, false);
+        }
         List<Customer> customerList = new ArrayList<>();
         customerList = customerService.getAllCustomer();
         // đây là id của khách lẻ, thì không cho hiển thị ra
@@ -97,10 +102,11 @@ public class CustomerController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("id") int id) {
+    public String delete(@RequestParam("id") int id, HttpSession session) {
         System.out.println("delete" + id);
         customerService.deleteCustomerById(id);
         //check id còn tồn tại hay không
+        session.setAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, true);
         return "redirect:/customer/list-customer";
     }
 

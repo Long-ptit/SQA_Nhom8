@@ -63,6 +63,7 @@ public class LoginController {
             session.setAttribute(Constants.MSG_ADD_SUCCESS, false);
             session.setAttribute(Constants.MSG_EDIT_SUCCESS, false);
             session.setAttribute(Constants.MSG_ADD_BILL, false);
+            session.setAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, false);
             session.setAttribute("staff", s);
             if (s.getRole().equals("nhanvien")) {
                 return "home-staff";

@@ -64,6 +64,10 @@
 <script th:if="${messageKhachHangSua != null}" th:inline="javascript" >
   alert([[${messageKhachHangSua}]])
 </script>
+
+<script th:if="${messageKhachHangXoa != null}" th:inline="javascript" >
+  alert([[${messageKhachHangXoa}]])
+</script>
 <script>
   function ConfirmDelete(id){
     var choose = confirm("Bạn có chắc chắc muốn xóa người dùng nay không?");
