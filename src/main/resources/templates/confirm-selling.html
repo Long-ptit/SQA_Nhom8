@@ -264,8 +264,11 @@
         var input, tongTien, tienThua;
         input = document.getElementById("khachTra");
         tongTien = document.getElementById("tongTien");
-
         tienThua = input.value - tongTien.value
+        if (tienThua < 0) {
+            document.getElementById("tienThua").innerHTML = "Tiền trả lại (VND): " + "0";
+            return;
+        }
         document.getElementById("tienThua").innerHTML = "Tiền trả lại (VND): " + tienThua;
         document.querySelector('#tienThuaInput').value = tienThua;
     }

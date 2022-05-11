@@ -48,7 +48,6 @@ public class CustomerController {
         if (errors.hasErrors()) {
             System.out.println(errors.getObjectName()
             );
-
             return "add-customer";
         } else {
             List<Customer> customerList = customerService.getCustomerByPhone(customer.getPhone());
@@ -99,6 +98,7 @@ public class CustomerController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam("id") int id) {
+        System.out.println("delete" + id);
         customerService.deleteCustomerById(id);
         //check id còn tồn tại hay không
         return "redirect:/customer/list-customer";

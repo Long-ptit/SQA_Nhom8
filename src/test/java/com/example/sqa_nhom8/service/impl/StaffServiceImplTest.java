@@ -25,7 +25,6 @@ class StaffServiceImplTest {
         assertTrue(c);
         c = staffService.checkAcount("abcxyz", "abcxyz");
         assertFalse(c);
-
     }
 
     @Test

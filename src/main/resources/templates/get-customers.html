@@ -54,7 +54,7 @@
       <td th:text="*{customer.email}" ></td>
       <td th:text="*{#numbers.formatInteger(customer.totalCoins,3,'COMMA')}"></td>
       <td><a class="btn btn-warning" href="#" role="button" th:href="@{/customer/edit?id=}+${customer.id}">Sửa</a> </td>
-      <td><button class="btn btn-danger" role="button" th:onclick="'Confirm(\'' + ${customer.id} + '\');'" type="button" >Xóa</button> </td>
+      <td><button class="btn btn-danger" role="button" th:onclick="'ConfirmDelete(\'' + ${customer.id} + '\');'" type="button" >Xóa</button> </td>
     </tr>
 
     </tbody>
@@ -65,7 +65,7 @@
   alert([[${messageKhachHangSua}]])
 </script>
 <script>
-  function Confirm1(id){
+  function ConfirmDelete(id){
     var choose = confirm("Bạn có chắc chắc muốn xóa người dùng nay không?");
     if(choose==true){
       window.location.href='/customer/delete?id='+id;

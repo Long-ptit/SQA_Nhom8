@@ -50,7 +50,6 @@ class GoodImplTest {
         List<Goods> list = goodImp.getListGood();
         Goods good = list.get(0);
         Goods goods1 = goodRepository.getById(1);
-
         assertEquals(goods1, good);
     }
 

@@ -76,34 +76,22 @@ public class SellController {
     public String addSanPham(Model model,
                              HttpSession session,
                              @Valid @RequestParam(value = "key", required = false) String key,
-                             @RequestParam("soLuong") String soLuong) {
-        System.out.println("key" + key);
-        if (key == null) {
-            model.addAttribute("error_chon", "Xin vui lòng chọn 1 sản phẩm");
-            return "seeling";
-        }
-        int intSoLuong = 0;
-        try {
-            intSoLuong = Integer.parseInt(soLuong);
-            if (intSoLuong < 0) {
-                model.addAttribute("error_so_luong", "ban nhap so luong sai roi");
-                return "seeling";
-            }
-        } catch (Exception e) {
-            model.addAttribute("error_so_luong", "vui long nhap dung dinh dang");
-            return "seeling";
-        }
+                             @RequestParam("soLuong") int intSoLuong) {
 
+        if (key == null) {
+            model.addAttribute("error_chon", "Xin vui long chon 1 san pham");
+            return "seeling";
+        }
         List<CartItem> cartList = (List<CartItem>) session.getAttribute(Constants.LIST_CART);
         Goods matHang = goodService.getGoodById(Integer.parseInt(key));
-
         boolean check = cartItemService.checkExistCartItem(cartList, matHang);
         //setData for Item
         if (check) {
+            System.out.println("Mặt hàng đã tồn tại");
             for (CartItem item : cartList) {
                 if (item.getGoods().getId() == matHang.getId()) {
                     item.setAmount(item.getAmount() + intSoLuong);
-                    item.setTotalPrice(cartItemService.getPriceFromCartItem(intSoLuong, matHang.getPrice()));
+                    item.setTotalPrice(cartItemService.getPriceFromCartItem(item.getAmount(), matHang.getPrice()));
                     break;
                 }
             }
@@ -164,7 +152,7 @@ public class SellController {
 
 
     @PostMapping(path = "/confirm")
-    public String gotoConfirm(HttpSession session, @RequestParam("giamGia") String giamGia,
+    public String gotoConfirm(HttpSession session, @RequestParam("giamGia") int giamGia,
                               @Valid @RequestParam(value = "xu", required = false) String xu,
                               @RequestParam("id") int id, Model model) {
 
@@ -178,18 +166,7 @@ public class SellController {
             model.addAttribute("error_khach_hang", "Vui lòng thêm một mặt hàng");
             return "seeling";
         }
-        int intGiamGia = 0;
-        try {
-            intGiamGia = Integer.parseInt(giamGia);
-            if (intGiamGia > 100 || intGiamGia < 0) {
-                model.addAttribute("error_giam_gia", "Vui lòng nhập giá trị là số nguyen từ 1 đến 100");
-                return "seeling";
-            }
-        } catch (Exception e) {
-            model.addAttribute("error_giam_gia", "Vui lòng nhập giá trị là số nguyen từ 1 đến 100");
-            return "seeling";
-        }
-        bill.setDiscount(intGiamGia);
+        bill.setDiscount(giamGia);
         int tongTien = bill.getTotalPrice();
         int tienSauGiamGia = 0;
         int tienSauKM = billService.getPriceAfterSale(bill);
@@ -207,7 +184,7 @@ public class SellController {
         }
         bill.setActualPrice(tienSauGiamGia);
         bill.setCustomer(customerService.getCustomerById(id));
-        bill.setDiscount(intGiamGia);
+        bill.setDiscount(giamGia);
         Customer customer = customerService.getCustomerById(bill.getCustomer().getId());
         session.setAttribute("xuNhan", billService.getCoinWhenSave(bill, customer));
         return "confirm-selling";
