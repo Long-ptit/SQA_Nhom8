@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<title>Giao diện quản lý hóa đơn</title>
+<head th:replace="common/default :: header" />
+
+<body style="padding: 10px 20px">
+
+<div th:replace="common/default :: navbar"> </div>
+
+<h1 style="margin-top: 60px" >Danh sách hóa đơn</h1>
+
+<a  style="  color: white" class="btn btn-primary"  th:href="@{/home}" role="button">Quay lại</a>
+
+<div style="padding: 10px 16px; margin-left: -16px" class="input-group">
+
+    <form method="get" th:action="@{/bill/search}">
+        <div class="input-group">
+            <input autofocus="true" type="text" name="key" placeholder="Số điện thoại" />
+            <button type="submit"  class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+</div>
+
+<h5 class="text-danger" th:text="${notify}"></h5>
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+    <table class="table table-bordered table-striped mb-0">
+        <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Mã hóa đơn</th>
+            <th scope="col">Tên khách hàng</th>
+            <th scope="col">Số điện thoại hiện tại</th>
+            <th scope="col">Mã nhân viên </th>
+            <th scope="col">Tên nhân viên </th>
+            <th scope="col">Thời gian thanh toán</th>
+            <th scope="col">Xem chi tiết</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bill,index : ${listBills}" >
+            <th scope="row" th:text="*{index.index + 1}"></th>
+            <th  th:text="*{bill.id}"></th>
+            <td th:text="*{bill.customerName}" ></td>
+            <td th:text="*{bill.customer.phone}" ></td>
+            <td th:text="*{bill.staff.id}" ></td>
+            <td th:text="*{bill.staff.name}" ></td>
+            <td th:text="*{bill.date}"></td>
+            <td><a class="btn btn-primary" href="#" role="button" th:href="@{/bill/view(id=${bill.id})}">Xem</a> </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<div th:replace="common/default :: body-scripts"> </div>
+</body>
+</html>

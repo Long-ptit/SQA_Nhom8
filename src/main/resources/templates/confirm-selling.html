@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/default :: header" />
+<style>
+    .header1 div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    i {
+        margin-right: 8px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .header2 {
+        font-weight: bold;
+        background-color: white;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    body {
+        background-color: #f3f4f5;
+    }
+
+    .thongke {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .thongke-item {
+        background-color: white;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 2px 2px 10px rgb(207, 207, 207);
+    }
+
+    .toptiemnang {
+        margin: 0 70px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(159, 231, 163);
+    }
+
+    .giaodich {
+        margin: 0 65px 0px 82px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(233, 174, 230);
+    }
+
+    .topsanpham {
+        /* margin: 0 70px; */
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(158, 160, 131);
+    }
+
+    .footer {
+        padding: 8mm 0;
+        display: flex;
+        justify-content: space-around;
+        background-color: white;
+    }
+
+    .anyClass {
+        height: 400px;
+        overflow-y: scroll;
+    }
+
+    .footer-left-title,
+    .footer-right-title {
+        text-align: center;
+        color: blue;
+        font-weight: bold;
+    }
+
+    .footer-left-item {
+        margin-top: 5mm;
+    }
+
+    .formThemKH {
+        margin: auto;
+        width: 60%;
+        text-align: center;
+        align-content: center;
+        display: block;
+    }
+
+    .formThemKH,
+    .formBanHang {
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        padding: 20px;
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(212, 209, 208);
+    }
+
+    .formBanHang {
+        text-align: center;
+        align-content: center;
+        display: block;
+    }
+
+    h5 {
+        margin-bottom: 20px;
+    }
+
+    .quaylaihoantat {
+        display: none;
+    }
+
+    .formThemGiaoDich {
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        padding: 20px;
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(173, 173, 173);
+        display: block;
+    }
+
+    .locKH {
+        border-radius: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        padding: 20px;
+        background-color: white;
+        box-shadow: 2px 2px 10px rgb(173, 173, 173);
+        display: block;
+    }
+
+</style>
+<body>
+<div th:replace="common/default :: navbar"> </div>
+<h1 style="margin-top: 60px" >Xác nhận đơn hàng</h1>
+<div>
+    <div class="container col-8">
+        <div class="formBanHang">
+
+            <h5 th:text="'Tên khách hàng: ' + ${session.bill.getCustomer.name}"></h5>
+            <h5 th:text="'Mã khách hàng: ' + ${session.bill.getCustomer.id}"></h5>
+            <h5 th:text="'Số điện thoại: ' + ${session.bill.getCustomer.phone}"></h5>
+            <div class="anyClass">
+                <div class="table-KH " id="myTable">
+                    <table class="table table-hover">
+                        <thead class="">
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã sản phẩm</th>
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cart,index : ${session.listCart}">
+                            <td th:text="${index.index + 1}"></td>
+                            <td th:text="${cart.goods.id}"></td>
+                            <td th:text="${cart.name}"></td>
+                            <td th:text="${#numbers.formatInteger(cart.price,3,'COMMA')}"></td>
+                            <td th:text="${cart.amount}"></td>
+                            <td th:text="${#numbers.formatInteger(cart.totalPrice,3,'COMMA')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Tổng số lượng: ' + ${session.bill.totalAmount}">Tổng số lượng
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Tổng tiền (VND): ' + ${#numbers.formatInteger(session.bill.totalPrice,3,'COMMA')}"  >Tổng tiền: 12
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Giảm giá: ' + ${session.bill.discount} + '%'">Tổng tiền: 12
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Điểm tích lũy sử dụng (VND): ' +${#numbers.formatInteger(session.bill.coinsPay,3,'COMMA')}">Tổng tiền: 12
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Tiền cuối cùng (VND): ' +  ${#numbers.formatInteger(session.bill.actualPrice,3,'COMMA')}"></div>
+                    <input id="tongTien" th:value="${session.bill.actualPrice}" hidden/>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Điểm tích lũy thêm sau khi mua đơn hàng (VND): ' +  ${#numbers.formatInteger(session.xuNhan,3,'COMMA')}"></div>
+                </div>
+                <form th:action="@{/banhang/saveHoaDon}" method="post">
+                    <div class="row">
+                        <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;">
+                            Tiền khách trả:
+                            <input class="form-control ms-1" style="width: 3cm; height: 30px; "
+                                   id="khachTra" name="tienKhachTra"
+                                   th:value="${session.bill.actualPrice}" type="number"
+                                   th:min="${session.bill.actualPrice}"
+                                   required
+                                   onblur="myFunction()"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                             id="tienThua" th:text="'Tiền trả lại (VND): 0'"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold; color: red"
+                             th:text="${error}">
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between mt-3" >
+                <div>
+                    <button class="btn btn-primary" type="button" onclick="history.back()">Quay lại</button>
+                </div>
+                <div>
+                        <div class="d-flex justify-content-end">
+                            <div class="d-inline tieptuc ">
+                                <input id="tienThuaInput" hidden name="tienThua" value="0">
+                                <button class="btn btn-primary" role="submit"> Lưu</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- chân trang -->
+
+<script src="http://code.jquery.com/jquery-1.10.2.js "></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js "></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js "></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js "></script>
+
+
+<!-- tìm kiếm sp -->
+<script>
+    function myFunction() {
+        var input, tongTien, tienThua;
+        input = document.getElementById("khachTra");
+        tongTien = document.getElementById("tongTien");
+
+        tienThua = input.value - tongTien.value
+        document.getElementById("tienThua").innerHTML = "Tiền trả lại (VND): " + tienThua;
+        document.querySelector('#tienThuaInput').value = tienThua;
+    }
+</script>
+<script>
+    function myFunctionKH() {
+        var input, filter, table, tr, td, i, txtValue;
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTableKH");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<script src="/static/JS/BanHang.js"></script>
+</body>
+
+</html>

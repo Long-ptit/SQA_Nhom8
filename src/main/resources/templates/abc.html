@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/default :: header" />
+
+<body>
+<div th:replace="common/default :: navbar"> </div>
+<div>
+    <div class="d-flex justify-content-center">
+        <div class=" mb-4" id="myTableKH" style="width: 1150px;">
+            <div class=" row">
+                <div class="p-3 col-6">
+                    <div class="input-group">
+                        <b class="d-flex align-items-center">Tìm kiếm khách hàng theo số điện thoại:</b>
+                        <div class="ms-2 form-outline">
+                            <input class="form-control" type="text" id="myInputKH" onkeyup="myFunctionKH()"
+                                   placeholder="Tìm kiếm ..." title="Type in a name"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 col-6 d-flex justify-content-end">
+                    <a href="ThemKH.html">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Thêm mới khách hàng
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="d-flex justify-content-end">
+                <div class="d-inline tieptuc ">
+                    <button class="btn btn-primary " type="submit"> Lưu hóa đơn</button>
+                </div>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- chân trang -->
+    <div class="footer mt-4 ">
+        <div class=footer-left>
+            <h5 class="footer-left-title ">SQA nhóm 8</h5>
+            <ul>
+                <li class="footer-left-item ">Địa chỉ: Km10 - Nguyễn Trãi - Thanh Xuân - hà Nội</li>
+                <li class="footer-left-item ">Số điện thoại: 0123456789</li>
+                <li class="footer-left-item ">Email: ctyabcvietnamh@gmail.com</li>
+            </ul>
+        </div>
+        <div class="footer-right ">
+            <h5 class="footer-right-title ">Google map</h5>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.4083037682194!2d105.7818576144072!3d21.01634269357922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454ab43c0c4db%3A0xdb6effebd6991106!2zVMOyYSBuaMOgIEtlYW5nbmFtIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1632482368958!5m2!1svi!2s "
+                    width="280 " height="250 " style="border:0; " allowfullscreen=" " loading="lazy "></iframe>
+        </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js "></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js "></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js "></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js "></script>
+
+
+    <!-- tìm kiếm sp -->
+    <script type="text/javascript">
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTableItem");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        function myFunctionKH() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInputKH");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTableKH");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="/static/JS/BanHang.js"></script>
+
+    <div th:replace="common/default :: body-scripts"> </div>
+</body>
+<div th:replace="common/default :: footer"> </div>
+</html>

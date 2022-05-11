@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/default :: header" />
+<body>
+<div th:replace="common/default :: navbar"> </div>
+<h1 style="margin-top: 20px">Hóa đơn chi tiết</h1>
+
+
+
+<div class="container">
+
+    <a  style="padding: 10px 16px" class="btn btn-primary" th:href="@{/bill/list-bill}" role="button">Quay lại</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3 body-main inner">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4"> <img class="img" alt="Invoce Template" src="http://pngimg.com/uploads/shopping_cart/shopping_cart_PNG59.png" /> </div>
+                        <div class="col-md-8 text-right">
+                            <h4 style="color: #F81D2D;"><strong>BMC Shop</strong></h4>
+                            <h5>Thạch Thành, Thanh Hóa</h5>
+                            <h5>Coppy right by BMC</h5>
+                            <h5>congbm@gmail.com</h5>
+                        </div>
+                    </div> <br />
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h2>Hóa Đơn</h2>
+                            <div class="row text-center d-flex justify-content-sm-center">
+                                <h5 style="margin-left: 10px">ID: &nbsp;</h5>  <h5 id="idHD" th:text=" ${bill.id}" ></h5>
+                            </div>
+
+
+                        </div>
+                    </div> <br />
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <h5>Miêu tả</h5>
+                                </th>
+                                <th>
+                                    <h5>Số lượng</h5>
+                                </th>
+                                <th>
+                                    <h5>Đơn giá(VND)</h5>
+                                </th>
+                                <th>
+                                    <h5>Tổng tiền(VND)</h5>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="list : ${goodItems}">
+                                <td  th:text="*{list.name}"></td>
+                                <td  th:text="*{list.amount}"></td>
+                                <td  th:text="*{list.priceString}"></td>
+                                <td th:text="*{list.totalPriceString}" ></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">
+                                    <p> <strong>Tổng tiền hàng(VND):</strong> </p>
+                                    <p> <strong>Giảm giá(%):</strong> </p>
+                                    <p> <strong>Sử dụng coin(VND):</strong> </p>
+                                    <p> <strong>Tổng thanh toán(VND): </strong> </p>
+                                    <p> <strong>Khách hàng trả(VND): </strong> </p>
+                                    <p> <strong>Tiền trả lại(VND): </strong> </p>
+
+                                </td>
+                                <td>
+                                    <p> <strong><i th:text="*{bill.totalPrice}" class="fas " area-hidden="true"></i></strong> </p>
+                                    <p> <strong><i th:text="*{bill.discount}"  class="fas " area-hidden="true"></i></strong> </p>
+                                    <p> <strong><i th:text="*{bill.coinsPay}"  class="fas " area-hidden="true"></i> </strong> </p>
+                                    <p style="color: red"> <strong><i th:text="*{bill.actualPriceString}"  class="fas " area-hidden="true"></i></strong> </p>
+                                    <p> <strong><i th:text="*{bill.priceCustomer}"  class="fas " area-hidden="true"></i> </strong> </p>
+                                    <p> <strong><i th:text="*{bill.priceBack}"  class="fas" area-hidden="true"></i></strong> </p>
+                                </td>
+                            </tr>
+                            <tr style="color: #F81D2D;">
+                                <td class="text-right">
+                                    <h4><strong>Tổng(VND):</strong></h4>
+                                </td>
+                                <td class="text-left">
+                                    <h4><strong><i th:text="*{bill.actualPriceString}" class="fas " area-hidden="true"></i> </strong></h4>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="col-md-12">
+                            <b><b>Ngày: </b><b th:text="*{bill.date}"></b> <br />
+                            <p><b>Nhân viên: <b th:text="*{bill.staff.name}"></b> </b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/default :: body-scripts"> </div>
+</body>
+</html>

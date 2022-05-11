@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/default :: header" />
+
+<body style="padding: 10px 20px">
+
+<div th:replace="common/default :: navbar"> </div>
+
+<h1 style="margin-top: 60px" >Sửa khách hàng</h1>
+
+<a  style="margin: 10px 200px" class="btn btn-primary" th:href="@{/customer/list-customer}" role="button">Quay lại</a>
+
+<form  style="margin: 10px 200px" method="post" th:action="@{/customer/save-edit}" th:object="${customer}">
+  <div class="formThemKH">
+
+    <input type="hidden" th:field="*{id}" />
+    <div class="row">
+      <p class="col-2">ID</p>
+      <p class="col-10"><input class="form-control" id="ID" type="text" value="" th:value="${customer.id}" name="id" disabled></p>
+    </div>
+    <div class="row">
+      <p class="col-2">Họ và tên</p>
+      <p class="col-10"><input class="form-control" id="name" type="text" value=""  th:field="*{name}"  th:autofocus="*{name}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2"></p>
+      <p class="col-10 text-danger"   th:if="${#fields.hasErrors('name')}"  th:errors="*{name}" ></p>
+    </div>
+    <div class="row">
+      <p class="col-2">Số điện thoại</p>
+      <p class="col-10 text-danger"><input class="form-control" name="phone" type="text" value="" th:field="*{phone}"  th:autofocus="*{phone}" ></p>
+    </div>
+    <div class="row">
+      <p class="col-2"></p>
+      <p class="col-10 text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:text="${f}"></p>
+      <p class="col-10 text-danger"  th:text="${f}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2">Email</p>
+      <p class="col-10 "><input class="form-control" type="email" value="" th:field="*{email}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2"></p>
+      <p class="col-10 text-danger"  th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2">Địa chỉ</p>
+      <p class="col-10"><input class="form-control" type="text" value="" th:field="*{address}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2"></p>
+      <p class="col-10 text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+    </div>
+    <div class="row">
+      <p class="col-2">Tổng điểm tích lũy (VND)</p>
+      <p class="col-10"><input class="form-control" type="text" value="" th:value="${#numbers.formatInteger(customer.totalCoins,3,'COMMA')} "  name="total"  id="toatalID" disabled></p>
+    </div>
+
+
+    <input type="hidden" th:field="*{totalCoins}" />
+    <input type="hidden" th:field="*{isActive}" />
+
+    <hr>
+  </div>
+  <button class="btn btn-primary" type="submit" >Sửa</button>
+  </div>
+</form>
+
+
+
+<div th:replace="common/default :: body-scripts"> </div>
+</body>
+</html>

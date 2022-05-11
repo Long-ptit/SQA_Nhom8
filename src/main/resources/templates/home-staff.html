@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/default :: header" />
+<style>
+    .log{
+        margin-right:30px;
+    }
+    .button {
+        width: 400px;
+        background-color: #4CAF50;
+        border-radius: 25px;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 7px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 25px;
+        color: white;
+    }
+</style>
+<body>
+    <div th:replace="common/default :: navbar"> </div>
+    <h1 style="margin-top: 20px" >Trang chủ nhân viên bán hàng</h1>
+
+    <br>
+    <br>
+
+    <div align="center">
+
+        <a th:href="@{/banhang/home}"><button class = "button">Bán hàng</button></a><br/>
+        <a th:href="@{/customer/add}"><button class = "button">Thêm khách hàng</button><br/>
+
+    </div>
+
+
+    <div th:replace="common/default :: body-scripts"> </div>
+</body>
+</html>
