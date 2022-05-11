@@ -242,7 +242,7 @@
                 <div class="row d-flex justify-content-center mt-4">
                     <div class=" input-group">
                         <label for="">Nhập số lượng: </label>
-                        <input value="" class="form-control ms-2" name="soLuong" required type="number">
+                        <input value="" class="form-control ms-2" name="soLuong" required type="number" th:min="1">
                         <button type="submit" class="btn btn-primary" id="themsp">Thêm</button>
                     </div>
                 </div>
@@ -371,6 +371,9 @@
                     }
                 }
             }
+        </script>
+        <script th:if="${message != null}" th:inline="javascript" >
+            alert([[${message}]])
         </script>
         <script>
             function myFunctionKH() {

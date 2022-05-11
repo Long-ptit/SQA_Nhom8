@@ -40,6 +40,7 @@ public class SellController {
     BillService billService;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
+
     @GetMapping("/home")
     public String getHome(HttpSession session, Model model) {
         List<Goods> listMatHang = goodService.getListGood();
@@ -49,6 +50,13 @@ public class SellController {
         //bill.setCustomer(customerService.getCustomerById(1));
         //lưu list vào session
         bill.setCustomer(new Customer());
+
+        if ((Boolean) session.getAttribute(Constants.MSG_ADD_BILL)) {
+            model.addAttribute("message", "Thêm đơn hàng thành công");
+            session.setAttribute(Constants.MSG_ADD_BILL, false);
+        }
+
+
         session.setAttribute(Constants.LIST_MAT_HANG, listMatHang);
         session.setAttribute(Constants.BILL, bill);
         session.setAttribute(Constants.LIST_KHACH_HANG, listCustomer);
@@ -71,7 +79,7 @@ public class SellController {
                              @RequestParam("soLuong") String soLuong) {
         System.out.println("key" + key);
         if (key == null) {
-            model.addAttribute("error_chon", "Xin vui long chon 1 san pham");
+            model.addAttribute("error_chon", "Xin vui lòng chọn 1 sản phẩm");
             return "seeling";
         }
         int intSoLuong = 0;
@@ -139,7 +147,7 @@ public class SellController {
 
 
     @PostMapping(path = "/suaSanPham")
-    public String editSanPham(@RequestParam("id") long id,@RequestParam("soLuongSua") int soLuongSua, HttpSession session) {
+    public String editSanPham(@RequestParam("id") long id, @RequestParam("soLuongSua") int soLuongSua, HttpSession session) {
         List<CartItem> cartList = (List<CartItem>) session.getAttribute(Constants.LIST_CART);
         cartList = cartItemService.handleEditCartItem(id, soLuongSua, cartList);
         int soLuongTong;
@@ -158,8 +166,7 @@ public class SellController {
     @PostMapping(path = "/confirm")
     public String gotoConfirm(HttpSession session, @RequestParam("giamGia") String giamGia,
                               @Valid @RequestParam(value = "xu", required = false) String xu,
-                              @RequestParam("id") int id, Model model)
-    {
+                              @RequestParam("id") int id, Model model) {
 
         List<CartItem> cartList = (List<CartItem>) session.getAttribute(Constants.LIST_CART);
         Bill bill = (Bill) session.getAttribute(Constants.BILL);
@@ -213,8 +220,7 @@ public class SellController {
             HttpSession session,
             @RequestParam("tienThua") int tienThua,
             @RequestParam("tienKhachTra") int tienKhachTraInt
-            )
-    {
+    ) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         List<CartItem> cartList = (List<CartItem>) session.getAttribute(Constants.LIST_CART);
@@ -231,12 +237,13 @@ public class SellController {
         Staff staff = (Staff) session.getAttribute("staff");
         billBanHang.setStaff(staff);
         Bill billBH = billService.saveItem(billBanHang);
-        for(CartItem item: cartList) {
+        for (CartItem item : cartList) {
             item.setBill(billBH);
             cartItemService.saveItem(item);
         }
         //back back
-        session.setAttribute("message", "Success");
+        //check if thêm thành công thì quay lại với message
+        session.setAttribute(Constants.MSG_ADD_BILL, true);
         return "redirect:/banhang/home";
     }
 

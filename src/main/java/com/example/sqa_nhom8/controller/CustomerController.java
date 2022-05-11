@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,11 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/list-customer")
-    public String getCustomers(Model model) {
-
+    public String getCustomers(Model model, HttpSession session) {
+        if ((boolean) session.getAttribute(Constants.MSG_EDIT_SUCCESS)) {
+            model.addAttribute("messageKhachHangSua", "Sửa khách hàng thành công");
+            session.setAttribute(Constants.MSG_EDIT_SUCCESS, false);
+        }
         List<Customer> customerList = new ArrayList<>();
         customerList = customerService.getAllCustomer();
         // đây là id của khách lẻ, thì không cho hiển thị ra
@@ -38,7 +42,7 @@ public class CustomerController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("customer") Customer customer,
-                       Errors errors, Model model) {
+                       Errors errors, Model model,HttpSession session) {
 
 
         if (errors.hasErrors()) {
@@ -51,9 +55,12 @@ public class CustomerController {
             System.out.println(customerList.size());
 
             if(customerService.saveCustoemr(customer) == true){
+                //cần 1 hàm check
+                session.setAttribute(Constants.MSG_ADD_SUCCESS, true);
                 return "redirect:/home";
             }else {
                 model.addAttribute("f", "Đã có khách hàng sử dụng số điện thoại trên!");
+
                 return "add-customer";
             }
 
@@ -71,7 +78,7 @@ public class CustomerController {
 
 
     @PostMapping("/save-edit")
-    public String saveEdit(@Valid @ModelAttribute("customer") Customer customer, Errors errors, Model model) {
+    public String saveEdit(@Valid @ModelAttribute("customer") Customer customer, Errors errors, Model model,HttpSession session) {
         System.out.println(customer.getName());
         if (errors.hasErrors()) {
             System.out.println("co loi");
@@ -83,6 +90,8 @@ public class CustomerController {
                 return "add-customer";
             }else {
                 customerService.edtiCustomer(customer.getId(), customer);
+                //cần 1 hàm check
+                session.setAttribute(Constants.MSG_EDIT_SUCCESS, true);
                 return "redirect:/customer/list-customer";
             }
         }

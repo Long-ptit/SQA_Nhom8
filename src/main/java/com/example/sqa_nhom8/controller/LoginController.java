@@ -33,9 +33,14 @@ public class LoginController {
     }
 
     @GetMapping("/home")
-    public String Home(HttpSession session){
+    public String Home(HttpSession session,Model model){
         Staff staff = (Staff) session.getAttribute("staff");
         if (staff.getRole().equals("nhanvien")) {
+            if ((boolean) session.getAttribute(Constants.MSG_ADD_SUCCESS)) {
+                model.addAttribute("messageKhachHangThem", "Thêm khách hàng thành công");
+                session.setAttribute(Constants.MSG_ADD_SUCCESS, false);
+            }
+
             return "home-staff";
         }
         return "home-admin";
@@ -55,6 +60,9 @@ public class LoginController {
         session.setAttribute("toast", 0);
         System.out.println(check);
         if(check == true){
+            session.setAttribute(Constants.MSG_ADD_SUCCESS, false);
+            session.setAttribute(Constants.MSG_EDIT_SUCCESS, false);
+            session.setAttribute(Constants.MSG_ADD_BILL, false);
             session.setAttribute("staff", s);
             if (s.getRole().equals("nhanvien")) {
                 return "home-staff";

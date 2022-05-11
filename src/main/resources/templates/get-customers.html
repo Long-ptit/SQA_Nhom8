@@ -61,6 +61,9 @@
   </table>
 </div>
 <div th:replace="common/default :: body-scripts"> </div>
+<script th:if="${messageKhachHangSua != null}" th:inline="javascript" >
+  alert([[${messageKhachHangSua}]])
+</script>
 <script>
   function Confirm1(id){
     var choose = confirm("Bạn có chắc chắc muốn xóa người dùng nay không?");

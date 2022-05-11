@@ -44,7 +44,9 @@
 
     </div>
 
-
+    <script th:if="${messageKhachHangThem != null}" th:inline="javascript" >
+        alert([[${messageKhachHangThem}]])
+    </script>
     <div th:replace="common/default :: body-scripts"> </div>
 </body>
 </html>

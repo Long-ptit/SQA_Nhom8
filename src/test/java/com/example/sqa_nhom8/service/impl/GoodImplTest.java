@@ -31,7 +31,7 @@ class GoodImplTest {
     @Transactional
     void testSaveGood() {
         Goods goods = new Goods();
-        goods.setName("dau xanh");
+        goods.setName("long dep trai");
         goods.setPrice(10);
         goods.setDiscount(0);
         goods.setIsActive(1);;
