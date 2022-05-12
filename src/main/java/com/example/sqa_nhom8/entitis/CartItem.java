@@ -13,7 +13,6 @@ public class CartItem {
     private String name;
     private int amount;
     private int price;
-    private int discount;
     private int totalPrice;
 
     @ManyToOne()

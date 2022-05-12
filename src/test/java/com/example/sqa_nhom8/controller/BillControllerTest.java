@@ -2,9 +2,11 @@ package com.example.sqa_nhom8.controller;
 
 import com.example.sqa_nhom8.entitis.Bill;
 import com.example.sqa_nhom8.entitis.CartItem;
+import com.example.sqa_nhom8.entitis.Customer;
 import com.example.sqa_nhom8.entitis.Staff;
 import com.example.sqa_nhom8.service.BillService;
 import com.example.sqa_nhom8.service.CartItemService;
+import com.example.sqa_nhom8.service.CustomerService;
 import com.example.sqa_nhom8.service.StaffService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,6 +38,9 @@ class BillControllerTest {
 
     @Autowired
     CartItemService cartItemService;
+
+    @Autowired
+    CustomerService customerService;
 
     @Test
     @DisplayName("Get all bill")
@@ -62,11 +68,119 @@ class BillControllerTest {
                 .andExpect(model().attribute("listCart", itemList))
                 .andExpect(view().name("detail-bill"));
 
-
-
     }
 
     @Test
-    void search() {
+    void testSeachNotKey() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+       List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("listBills", listBills))
+                .andExpect(view().name("home-bill"));
     }
+
+    @Test
+    void testSeachInjection() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "select").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachInjectionContain() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "1select111").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachInjectionUpperCase() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "SELECT").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachInjectionUpperCaseContain() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "11SELECT11").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+
+    @Test
+    void testSeachPhoneNotTrue() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "374732742379242347").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachPhoneListBillIsNone() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+
+        mockMvc.perform(get("/bill/search").param("key", "0987739878").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachPhoneListBillSuccess() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        String key = "03";
+        Staff staff = staffService.getStaffById(2);
+        List<Customer> customerList = customerService.getCustomerByPhone(key);
+        List<Bill> listBills = new ArrayList<>();
+        List<Integer> listID = new ArrayList<>();
+        for(int i=0; i<customerList.size(); i++){
+            listID.add(customerList.get(i).getId());
+        }
+        for (int i=0; i <listID.size(); i++){
+            List<Bill> billsById = billService.getBillsByIDCustomer(listID.get(i));
+            if(billsById != null){
+                for (Bill b : billsById){
+                    listBills.add(b);
+                }
+            }
+        }
+        mockMvc.perform(get("/bill/search").param("key", key).sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("listBills", listBills))
+                .andExpect(view().name("home-bill"));
+    }
+
+
 }

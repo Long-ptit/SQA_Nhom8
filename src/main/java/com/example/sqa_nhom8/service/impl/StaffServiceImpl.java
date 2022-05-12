@@ -30,6 +30,6 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff getStaffById(int id) {
-        return staffRepository.getById(id);
+        return staffRepository.findById(id).get();
     }
 }

@@ -33,7 +33,6 @@ class GoodImplTest {
         Goods goods = new Goods();
         goods.setName("long dep trai");
         goods.setPrice(10);
-        goods.setDiscount(0);
         goods.setIsActive(1);;
         Goods goods1 =  goodImp.saveGood(goods);
     }

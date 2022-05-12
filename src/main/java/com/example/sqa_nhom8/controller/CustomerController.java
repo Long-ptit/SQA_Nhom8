@@ -1,6 +1,7 @@
 package com.example.sqa_nhom8.controller;
 
 import com.example.sqa_nhom8.entitis.Customer;
+import com.example.sqa_nhom8.entitis.Staff;
 import com.example.sqa_nhom8.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,18 +24,21 @@ public class CustomerController {
 
     @GetMapping("/list-customer")
     public String getCustomers(Model model, HttpSession session) {
-        if ((boolean) session.getAttribute(Constants.MSG_EDIT_SUCCESS)) {
+
+        boolean checkEdit = (boolean) session.getAttribute(Constants.MSG_EDIT_SUCCESS);
+        if (checkEdit) {
             model.addAttribute("messageKhachHangSua", "Sửa khách hàng thành công");
             session.setAttribute(Constants.MSG_EDIT_SUCCESS, false);
         }
 
-        if ((boolean) session.getAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS)) {
+        boolean checkDelete = (boolean) session.getAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS);
+
+        if (checkDelete) {
             model.addAttribute("messageKhachHangXoa", "Xóa khách hàng thành công");
             session.setAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, false);
         }
         List<Customer> customerList = new ArrayList<>();
         customerList = customerService.getAllCustomer();
-        // đây là id của khách lẻ, thì không cho hiển thị ra
         model.addAttribute("listCustomer", customerList);
         return "get-customers";
     }
@@ -49,6 +53,7 @@ public class CustomerController {
     public String save(@Valid @ModelAttribute("customer") Customer customer,
                        Errors errors, Model model,HttpSession session) {
 
+        System.out.println("name ptit" + customer.getName());
 
         if (errors.hasErrors()) {
             System.out.println(errors.getObjectName()

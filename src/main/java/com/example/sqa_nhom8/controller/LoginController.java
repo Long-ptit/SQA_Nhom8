@@ -40,7 +40,6 @@ public class LoginController {
                 model.addAttribute("messageKhachHangThem", "Thêm khách hàng thành công");
                 session.setAttribute(Constants.MSG_ADD_SUCCESS, false);
             }
-
             return "home-staff";
         }
         return "home-admin";
@@ -57,7 +56,6 @@ public class LoginController {
 
         Boolean check = staffService.checkAcount(us, ps);
         Staff s = staffService.getStaffByUserNameAndPassword(us, ps);
-        session.setAttribute("toast", 0);
         System.out.println(check);
         if(check == true){
             session.setAttribute(Constants.MSG_ADD_SUCCESS, false);
