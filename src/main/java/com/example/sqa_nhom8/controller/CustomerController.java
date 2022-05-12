@@ -55,8 +55,6 @@ public class CustomerController {
             );
             return "add-customer";
         } else {
-            List<Customer> customerList = customerService.getCustomerByPhone(customer.getPhone());
-            System.out.println(customerList.size());
 
             if(customerService.saveCustoemr(customer) == true){
                 //cần 1 hàm check
@@ -83,7 +81,8 @@ public class CustomerController {
 
     @PostMapping("/save-edit")
     public String saveEdit(@Valid @ModelAttribute("customer") Customer customer, Errors errors, Model model,HttpSession session) {
-        System.out.println(customer.getName());
+        System.out.println( "SDT: " + customer.getPhone());
+
         if (errors.hasErrors()) {
             System.out.println("co loi");
             return "edit-customer";
@@ -91,7 +90,7 @@ public class CustomerController {
 
             if(customerService.edtiCustomer(customer.getId(), customer) == false){
                 model.addAttribute("f", "Đã có khách hàng sử dụng số điện thoại trên!");
-                return "add-customer";
+                return "edit-customer";
             }else {
                 customerService.edtiCustomer(customer.getId(), customer);
                 //cần 1 hàm check

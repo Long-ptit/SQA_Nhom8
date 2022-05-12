@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CustomerImpl implements CustomerService {
 
     @Autowired
@@ -68,25 +69,35 @@ public class CustomerImpl implements CustomerService {
     @Override
     public boolean edtiCustomer(int id, Customer customer) {
 
+        List<Customer> customerList = getCustomerByPhone(customer.getPhone());
+
         Optional<Customer> optional = customerRepository.findById(id);
+
         if(optional.isPresent()){
-            if(customer.getPhone().trim() == optional.get().getPhone().trim() ){
-                return false;
-            }else {
-                Customer csm = optional.get();
-                csm.setPhone(customer.getPhone());
-                csm.setAddress(customer.getAddress());
-                csm.setEmail(customer.getEmail());
-                csm.setName(customer.getName());
-                csm.setTotalCoins(customer.getTotalCoins());
-                customerRepository.save(csm);
-//                customerRepository.delete(customer);
-                System.out.println("Thanh cong!");
+            Customer cDB = optional.get();
+            System.out.println(cDB.getPhone() + " "+ cDB.getId());
+
+            if(customer.getPhone().trim().equals(cDB.getPhone().trim())){
+                System.out.println("TH_1");
                 return true;
+            }else if(customer.getPhone().trim() != cDB.getPhone().trim() && customerList.size() == 0){
+                System.out.println("TH_2");
+                cDB.setName(customer.getName());
+                cDB.setPhone(customer.getPhone());
+                cDB.setAddress(customer.getAddress());
+                cDB.setEmail(customer.getEmail());
+                return true;
+            }else {
+                System.out.println("TH_3");
+                return false;
             }
         }else {
-            return  false;
+            System.out.println("TH_4");
+            return false;
         }
+
+
+
     }
 
     @Override
@@ -101,12 +112,11 @@ public class CustomerImpl implements CustomerService {
 
     @Override
     public Customer getOneCustomerByPhone(String phone) {
-        Optional<Customer> optional = Optional.ofNullable(customerRepository.getCustomerByPhone(phone));
-        if(optional.isPresent()){
-            Customer c = optional.get();
-            return c ;
-        }
-        return null;
+        Customer c = customerRepository.getCustomerByPhone(phone);
+        if(c != null){
+            return  c;
+        }else
+            return null;
     }
 
 
