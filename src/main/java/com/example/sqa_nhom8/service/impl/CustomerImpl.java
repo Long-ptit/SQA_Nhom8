@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +23,11 @@ public class CustomerImpl implements CustomerService {
     @Override
     public Customer getCustomerById(int id) {
         Optional<Customer> optional = customerRepository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             Customer c = optional.get();
             System.out.println(c.getId());
             return c;
-        }else {
+        } else {
             System.out.println("NUll roi");
             return null;
 
@@ -73,29 +74,28 @@ public class CustomerImpl implements CustomerService {
 
         Optional<Customer> optional = customerRepository.findById(id);
 
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             Customer cDB = optional.get();
-            System.out.println(cDB.getPhone() + " "+ cDB.getId());
+            System.out.println(cDB.getPhone() + " " + cDB.getId());
 
-            if(customer.getPhone().trim().equals(cDB.getPhone().trim())){
+            if (customer.getPhone().trim().equals(cDB.getPhone().trim())) {
                 System.out.println("TH_1");
                 return true;
-            }else if(customer.getPhone().trim() != cDB.getPhone().trim() && customerList.size() == 0){
+            } else if (customer.getPhone().trim() != cDB.getPhone().trim() && customerList.size() == 0) {
                 System.out.println("TH_2");
                 cDB.setName(customer.getName());
                 cDB.setPhone(customer.getPhone());
                 cDB.setAddress(customer.getAddress());
                 cDB.setEmail(customer.getEmail());
                 return true;
-            }else {
+            } else {
                 System.out.println("TH_3");
                 return false;
             }
-        }else {
+        } else {
             System.out.println("TH_4");
             return false;
         }
-
 
 
     }
@@ -113,10 +113,47 @@ public class CustomerImpl implements CustomerService {
     @Override
     public Customer getOneCustomerByPhone(String phone) {
         Customer c = customerRepository.getCustomerByPhone(phone);
-        if(c != null){
-            return  c;
-        }else
+        if (c != null) {
+            return c;
+        } else
             return null;
+    }
+
+    @Override
+    public List<Customer> searchListByPhone(String text) {
+        try {
+            String s = text.trim();
+            System.out.println("Text: " + s);
+            List<Customer> customerList = new ArrayList<>();
+
+            if (s.equals("")) {
+                System.out.println("Truong hop 1 s la rong");
+                customerList = getAllCustomer();
+                return customerList;
+            } else if (s.contains("select") || s.contains("or 1=1")
+                    || s.contains(" or") || s.contains("where")
+                    || s.contains("1=1") || s.contains("or 1=1;–") || s.contains("‘ or ‘abc‘=‘abc‘;–")
+                    || s.contains("‘ or ‘ ‘=‘ ‘;–") || s.contains("%")) {
+                System.out.println("Truong hop injection");
+                System.out.println("Text: " + s);
+                return null;
+            } else {
+                customerList = getCustomerByPhone(s);
+                System.out.println("Size list: " + customerList.size());
+                if (customerList.size() == 0) {
+                    return null;
+//                    model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+                } else {
+                    return customerList;
+                    //model.addAttribute("listCustomer", customerList);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Loi Parser");
+//            model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+            return null;
+        }
     }
 
 

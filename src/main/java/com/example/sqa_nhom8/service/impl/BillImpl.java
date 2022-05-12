@@ -76,7 +76,7 @@ public class BillImpl implements BillService {
     }
 
     @Override
-    public List<Bill> findBill(String text) {
+    public List<Bill> searchBillByPhone(String text) {
         try {
             String s = text.trim();
             System.out.println("Text: " + s);
@@ -94,7 +94,7 @@ public class BillImpl implements BillService {
                 System.out.println("Truong hop injection");
                 System.out.println("Text: " + s);
                 return null;
-//                model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+                //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
             }
             else {
                 customerList = customerService.getCustomerByPhone(s);
@@ -102,7 +102,7 @@ public class BillImpl implements BillService {
                 if (customerList.size() == 0) {
                     System.out.println("So dien thoai sai");
                     return null;
-//                    model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+                    //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
                 } else {
                     System.out.println("Co ban ghi");
                     List<Integer> listID = new ArrayList<>();
@@ -111,26 +111,29 @@ public class BillImpl implements BillService {
                     }
                     for (int i=0; i <listID.size(); i++){
                         List<Bill> billsById = getBillsByIDCustomer(listID.get(i));
-                        if(billsById != null){
-                            for (Bill b : billsById){
-                                listBills.add(b);
-                            }
+                        for (Bill b : billsById){
+                            listBills.add(b);
                         }
                     }
                     System.out.println("Size Bill : " + listBills.size());
                     if(listBills.size() > 0 ){
                         return listBills;
+                     //   model.addAttribute("listBills", listBills);
                     }else {
                         return null;
+                       // model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
                     }
 
                 }
 
             }
-    }catch (Exception e){
-            e.printStackTrace();
+
+        } catch (Exception e) {
+            System.out.println("Loi Parser");
             return null;
+//            model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
         }
     }
+
 
 }

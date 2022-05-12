@@ -112,40 +112,17 @@ public class CustomerController {
     @GetMapping("/search")
     public String search(@RequestParam("key") String text, Model model) {
 
-        try {
-            String s = text.trim();
-            System.out.println("Text: " + s);
-            List<Customer> customerList = new ArrayList<>();
+        List<Customer> customerList = new ArrayList<>();
 
-            if (s.equals("")) {
-                System.out.println("Truong hop 1 s la rong");
-                customerList = customerService.getAllCustomer();
-//                customerList.removeIf(customer -> (customer.getId() == 1));
-                model.addAttribute("listCustomer", customerList);
-            } else if (s.contains("select") || s.contains("or 1=1")
-                    || s.contains(" or") || s.contains("where")
-                    || s.contains("1=1") || s.contains("or 1=1;–") || s.contains("‘ or ‘abc‘=‘abc‘;–")
-                    || s.contains("‘ or ‘ ‘=‘ ‘;–") || s.contains("%")) {
-                System.out.println("Truong hop injection");
-                System.out.println("Text: " + s);
-                model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
-            } else {
-                customerList = customerService.getCustomerByPhone(s);
-                System.out.println("Size list: " + customerList.size());
-                if (customerList.size() == 0) {
-                    model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
-                } else {
-                    model.addAttribute("listCustomer", customerList);
-                }
-            }
-            return "get-customers";
-
-        } catch (Exception e) {
-            System.out.println("Loi Parser");
+        customerList = customerService.searchListByPhone(text);
+        if(customerList == null){
             model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
-            return "get-customers";
+        }else {
+            model.addAttribute("listCustomer", customerList);
         }
 
+        return "get-customers";
+//
     }
 
 }
