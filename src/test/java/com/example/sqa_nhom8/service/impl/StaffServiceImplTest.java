@@ -39,9 +39,9 @@ class StaffServiceImplTest {
     @Test
     void getStaffById() {
 
-        Staff s = staffService.getStaffById(1);
+        Staff s = staffService.getStaffById(2);
         assertNotNull(s);
-        assertEquals("0337595001",s.getPhone()  );
+        assertEquals("0123456789",s.getPhone());
 
         s = staffService.getStaffById(1000);
         assertNull(s);

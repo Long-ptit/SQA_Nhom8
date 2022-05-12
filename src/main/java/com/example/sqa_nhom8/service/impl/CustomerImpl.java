@@ -37,6 +37,7 @@ public class CustomerImpl implements CustomerService {
 
     @Override
     public List<Customer> getCustomerByPhone(String phone) {
+        phone = phone.trim();
         List<Customer> list = customerRepository.findCustomerByPhone(phone);
         return list;
     }
@@ -116,6 +117,7 @@ public class CustomerImpl implements CustomerService {
 
     @Override
     public Customer getOneCustomerByPhone(String phone) {
+        phone = phone.trim();
         Customer c = customerRepository.getCustomerByPhone(phone);
         if (c != null) {
             return c;
