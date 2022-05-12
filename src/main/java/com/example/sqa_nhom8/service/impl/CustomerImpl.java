@@ -79,7 +79,11 @@ public class CustomerImpl implements CustomerService {
             System.out.println(cDB.getPhone() + " " + cDB.getId());
 
             if (customer.getPhone().trim().equals(cDB.getPhone().trim())) {
-                System.out.println("TH_1");
+                System.out.println("TH_1 - so dien thoai k bi sua");
+                cDB.setName(customer.getName());
+                cDB.setPhone(customer.getPhone());
+                cDB.setAddress(customer.getAddress());
+                cDB.setEmail(customer.getEmail());
                 return true;
             } else if (customer.getPhone().trim() != cDB.getPhone().trim() && customerList.size() == 0) {
                 System.out.println("TH_2");
