@@ -120,7 +120,7 @@ public class CustomerController {
             if (s.equals("")) {
                 System.out.println("Truong hop 1 s la rong");
                 customerList = customerService.getAllCustomer();
-                customerList.removeIf(customer -> (customer.getId() == 1));
+//                customerList.removeIf(customer -> (customer.getId() == 1));
                 model.addAttribute("listCustomer", customerList);
             } else if (s.contains("select") || s.contains("or 1=1")
                     || s.contains(" or") || s.contains("where")
