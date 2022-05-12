@@ -16,4 +16,5 @@ public interface BillService {
     int getPriceAfterSale(Bill bill);
     int getCoinAftefSaveBll(Bill bill, Customer customer);
     int getCoinWhenSave(Bill bill, Customer customer);
+    List<Bill> searchBillByPhone(String key);
 }

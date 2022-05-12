@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ public class BillImpl implements BillService {
     @Autowired
     BillRepository repository;
 
+    @Autowired
+    CustomerImpl customerService;
     @Override
     public Bill saveItem(Bill item) {
         Customer customer = item.getCustomer();
@@ -71,4 +74,66 @@ public class BillImpl implements BillService {
     public int getCoinWhenSave(Bill bill, Customer customer) {
         return (int) (bill.getActualPrice()*0.01);
     }
+
+    @Override
+    public List<Bill> searchBillByPhone(String text) {
+        try {
+            String s = text.trim();
+            System.out.println("Text: " + s);
+            List<Bill> listBills = new ArrayList<>();
+            List<Customer> customerList = new ArrayList<>();
+
+            if (s.equals("")) {
+                System.out.println("Truong hop 1 s la rong");
+                listBills = getAllBills();
+                return listBills;
+            } else if (s.contains("select") || s.contains("or 1=1")
+                    || s.contains(" or") || s.contains("where")
+                    || s.contains("1=1") || s.contains("or 1=1;–") || s.contains("‘ or ‘abc‘=‘abc‘;–")
+                    || s.contains("‘ or ‘ ‘=‘ ‘;–") || s.contains("%")) {
+                System.out.println("Truong hop injection");
+                System.out.println("Text: " + s);
+                return null;
+                //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+            }
+            else {
+                customerList = customerService.getCustomerByPhone(s);
+                System.out.println("Dau Vao la so dien thoai");
+                if (customerList.size() == 0) {
+                    System.out.println("So dien thoai sai");
+                    return null;
+                    //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+                } else {
+                    System.out.println("Co ban ghi");
+                    List<Integer> listID = new ArrayList<>();
+                    for(int i=0; i<customerList.size(); i++){
+                        listID.add(customerList.get(i).getId());
+                    }
+                    for (int i=0; i <listID.size(); i++){
+                        List<Bill> billsById = getBillsByIDCustomer(listID.get(i));
+                        for (Bill b : billsById){
+                            listBills.add(b);
+                        }
+                    }
+                    System.out.println("Size Bill : " + listBills.size());
+                    if(listBills.size() > 0 ){
+                        return listBills;
+                     //   model.addAttribute("listBills", listBills);
+                    }else {
+                        return null;
+                       // model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("Loi Parser");
+            return null;
+//            model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
+        }
+    }
+
+
 }

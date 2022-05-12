@@ -3,7 +3,9 @@ package com.example.sqa_nhom8.service.impl;
 import com.example.sqa_nhom8.entitis.Customer;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,6 +16,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
 @Transactional
 class CustomerImplTest {
 
@@ -23,32 +27,54 @@ class CustomerImplTest {
 
 
     @Test
+
     void getCustomerById() {
+
+        Customer c = new Customer( "Bùi Văn Test", "0337570000", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c);
+        Assert.assertNotNull(c);
+
         //excep
-        Customer c = customerService.getCustomerById(1000);
-        assertNull(c);
+        Customer  excp = customerService.getCustomerById(1000);
+        assertNull(excp);
 
         //
-        Customer c1 = customerService.getCustomerById(1);
-        assertNotNull(c1);
-        assertEquals("0337595002", c1.getPhone());
+        Customer c1 = customerService.getCustomerById(c.getId());
+        assertEquals(c.getPhone(), c1.getPhone());
 
     }
 
     @Test
     void getCustomerByPhone() {
 
-        List<Customer> listPhone = customerService.getCustomerByPhone("033");
-        assertEquals(2, listPhone.size());
+        Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c);
+
+        Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c1);
+        Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c2);
+        Customer c3 = new Customer( "Bùi Văn Test3", "0387570003", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c3);
+
+        List<Customer> listPhone = customerService.getCustomerByPhone("011");
+        assertEquals(3, listPhone.size());
 
         listPhone = customerService.getCustomerByPhone("");
-        assertEquals(3, listPhone.size());
+        assertEquals(4, listPhone.size());
 
-        listPhone = customerService.getCustomerByPhone("   ");
-        assertEquals(3, listPhone.size());
+        listPhone = customerService.getCustomerByPhone("    " );
+        assertEquals(0, listPhone.size());
 
-        listPhone = customerService.getCustomerByPhone("0337595002");
+        listPhone = customerService.getCustomerByPhone(c1.getPhone());
         assertEquals(1, listPhone.size());
+
+        listPhone = customerService.getCustomerByPhone("asdasd");
+        assertEquals(0, listPhone.size());
+
+        listPhone = customerService.getCustomerByPhone("select * from customere where phone = 0");
+        assertEquals(0, listPhone.size());
+
 
 
     }
@@ -56,13 +82,22 @@ class CustomerImplTest {
     @Test
     void getCustomers() {
 
+        Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c);
+
+        Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c1);
+        Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c2);
+        Customer c3 = new Customer( "Bùi Văn Test3", "0387570003", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c3);
+
         List<Customer> list = customerService.getCustomers();
-        assertEquals(3, list.size());
+        assertEquals(4, list.size());
 
     }
 
     @Test
-    @Rollback(false)
     void saveCustoemr() {
         Customer c = new Customer( "Hà Nội", "0337595004", "Huyen@gmail.com", "Nguen Ngoc Huyen", 0,1);
         customerService.saveCustoemr(c);
@@ -77,12 +112,23 @@ class CustomerImplTest {
     @Test
     void getAllCustomer() {
 
+        Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c);
+
+        Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c1);
+        Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c2);
+        Customer c3 = new Customer( "Bùi Văn Test3", "0387570003", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c3);
+
         List<Customer> customerList = customerService.getAllCustomer();
-        assertEquals(3, customerList.size());
+        assertEquals(4, customerList.size());
 
     }
 
     @Test
+    @Rollback
     void edtiCustomer() {
         Customer c = new Customer( "Hà Nội", "0737595004", "TEST@gmail.com", "test Ngoc TEst", 0,1);
         customerService.saveCustoemr(c);
@@ -112,6 +158,7 @@ class CustomerImplTest {
 
 
     @Test
+    @Rollback
     void deleteCustomerById() {
 
         Customer c = new Customer( "Test phan delete", "0737595000", "TEST@gmail.com", "test Delte TEst", 0,1);
@@ -127,16 +174,20 @@ class CustomerImplTest {
     }
 
     @Test
+    @Rollback
     void getOneCustomerByPhone() {
 
-        Customer c = customerService.getOneCustomerByPhone("    ");
+        Customer c = new Customer( "Test phan delete", "0737595000", "TEST@gmail.com", "test Delte TEst", 0,1);
+        customerService.saveCustoemr(c);
+
+        c = customerService.getOneCustomerByPhone("    ");
         assertNull(c);
         c = customerService.getOneCustomerByPhone("12321321312");
         assertNull(c);
         c = customerService.getOneCustomerByPhone("!!#@");
         assertNull(c);
-        c = customerService.getOneCustomerByPhone("0337595002");
-        assertNotNull(c);
+//        c = customerService.getOneCustomerByPhone(c.getPhone());
+//        assertNotNull(c);
 
     }
 }

@@ -24,4 +24,5 @@ public interface CustomerService {
 
     Customer getOneCustomerByPhone(String phone);
 
+    List<Customer> searchListByPhone(String text);
 }
