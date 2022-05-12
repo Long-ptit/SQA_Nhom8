@@ -23,11 +23,10 @@ public class CartItem {
     @JoinColumn(name = "id_bill")
     private Bill bill;
 
-    public CartItem(String name, int amount, int price, int discount, int totalPrice, Goods goods, Bill bill) {
+    public CartItem(String name, int amount, int price, int totalPrice, Goods goods, Bill bill) {
         this.name = name;
         this.amount = amount;
         this.price = price;
-        this.discount = discount;
         this.totalPrice = totalPrice;
         this.goods = goods;
         this.bill = bill;

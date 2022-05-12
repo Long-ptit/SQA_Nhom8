@@ -1,14 +1,16 @@
-package com.example.sqa_nhom8.service;
+package com.example.sqa_nhom8.service.impl;
 
 import com.example.sqa_nhom8.entitis.Bill;
 import com.example.sqa_nhom8.entitis.CartItem;
 import com.example.sqa_nhom8.entitis.Goods;
 import com.example.sqa_nhom8.repository.CartItemRepository;
+import com.example.sqa_nhom8.service.BillService;
+import com.example.sqa_nhom8.service.CartItemService;
+import com.example.sqa_nhom8.service.GoodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Rollback(true)
 @Transactional
-class CartItemServiceTest {
+class CartItemImplTest {
 
     @Autowired
     CartItemService cartItemService;
