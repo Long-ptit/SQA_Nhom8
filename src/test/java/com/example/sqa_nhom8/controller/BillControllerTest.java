@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+//10
 @AutoConfigureMockMvc
 @SpringBootTest
 class BillControllerTest {
@@ -71,18 +72,6 @@ class BillControllerTest {
     }
 
     @Test
-    void testSeachNotKey() throws Exception {
-//        Staff staff = new Staff();
-//        staff.setName("Haha");
-        Staff staff = staffService.getStaffById(2);
-       List<Bill> listBills = billService.getAllBills();
-        mockMvc.perform(get("/bill/search").param("key", "").sessionAttr("staff", staff))
-                .andDo(print())
-                .andExpect(model().attribute("listBills", listBills))
-                .andExpect(view().name("home-bill"));
-    }
-
-    @Test
     void testSeachInjectionUpperCaseContain() throws Exception {
 //        Staff staff = new Staff();
 //        staff.setName("Haha");
@@ -93,7 +82,53 @@ class BillControllerTest {
                 .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
                 .andExpect(view().name("home-bill"));
     }
+    @Test
+    void testSeachNotKey() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("listBills", listBills))
+                .andExpect(view().name("home-bill"));
+    }
 
+    @Test
+    void testSeachInjection() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "select").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachInjectionContain() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "1select111").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
+
+    @Test
+    void testSeachInjectionUpperCase() throws Exception {
+//        Staff staff = new Staff();
+//        staff.setName("Haha");
+        Staff staff = staffService.getStaffById(2);
+        List<Bill> listBills = billService.getAllBills();
+        mockMvc.perform(get("/bill/search").param("key", "SELECT").sessionAttr("staff", staff))
+                .andDo(print())
+                .andExpect(model().attribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!"))
+                .andExpect(view().name("home-bill"));
+    }
 
     @Test
     void testSeachPhoneNotTrue() throws Exception {

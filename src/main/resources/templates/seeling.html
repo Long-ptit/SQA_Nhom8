@@ -230,7 +230,7 @@
                             <tr th:each="mh : ${session.listMatHang}">
                                 <td th:text="${mh.id}"></td>
                                 <td th:text="${mh.name}"></td>
-                                <td th:text="Cái"></td>
+                                <td th:text="${mh.unit}"></td>
                                 <td th:text="${#numbers.formatInteger(mh.price,3,'COMMA')}"></td>
                                 <td><input class="form-check-input checkbox" type="radio" id="exampleRadios2"
                                            th:value="${mh.id}" name="key"></td>

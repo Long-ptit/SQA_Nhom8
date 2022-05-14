@@ -64,7 +64,8 @@ public class CartItemImpl implements CartItemService {
 
     @Override
     public List<CartItem> handleDeleteCartItem(long id, List<CartItem> list) {
-        List<CartItem> itemList = list;
+        List<CartItem> itemList = new ArrayList<>();
+        itemList.addAll(list);
         for (CartItem item : itemList) {
             if (item.getGoods().getId() == id) {
                 itemList.remove(item);

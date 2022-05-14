@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//12
 @SpringBootTest
 @Rollback(true)
 @Transactional
@@ -83,7 +84,7 @@ class CartItemImplTest {
     @Test
     void testGetCartItemByIdBillFirst() {
         CartItem cartItemFirst = cartItemService.getCartItemByIdBill(1).get(0);
-        int expectedId = 6;
+        int expectedId = 2;
         //kiểm tra nếu list khác 0 thì chạy đúng
         assertEquals(expectedId, cartItemFirst.getId());
     }
@@ -94,7 +95,7 @@ class CartItemImplTest {
         //trường hợp chỉ có 1 item, vẫn đúng
         List<CartItem> list = cartItemService.getCartItemByIdBill(id);
         CartItem cartItemFinal = list.get(list.size() - 1);
-        int expectedId = 6;
+        int expectedId = 2;
         //kiểm tra nếu list khác 0 thì chạy đúng
         assertEquals(expectedId, cartItemFinal.getId());
     }
@@ -175,7 +176,6 @@ class CartItemImplTest {
         assertFalse(cartItemService.checkExistCartItem(list,goods3));
     }
 
-    //bug
     @Test
     @Rollback
     @Transactional
@@ -192,15 +192,12 @@ class CartItemImplTest {
         goods2.setId(1);
         cartItem2.setId(1);
         cartItem2.setGoods(goods2);
-
-
         list.add(cartItem1);
         list.add(cartItem2);
         System.out.println(list.size());
-        List<CartItem> cartItems = new ArrayList<>();
-        cartItems.addAll(list);
-        System.out.println(cartItemService.handleDeleteCartItem(goods2.getId(), cartItems).size());
-        System.out.println(list.size());
+        List<CartItem> cartItems = cartItemService.handleDeleteCartItem(goods2.getId(), list);
+        assertEquals(1, cartItems.size());
+        System.out.println("kaka" + list.size());
 
     }
 

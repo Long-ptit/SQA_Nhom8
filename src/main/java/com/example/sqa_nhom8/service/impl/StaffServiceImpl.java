@@ -6,6 +6,8 @@ import com.example.sqa_nhom8.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StaffServiceImpl implements StaffService {
 
@@ -30,6 +32,10 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff getStaffById(int id) {
-        return staffRepository.findById(id).get();
+        Optional<Staff> o = staffRepository.findById(id);
+        if(o.isPresent()){
+            return  o.get();
+        }
+        return null;
     }
 }

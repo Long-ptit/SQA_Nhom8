@@ -202,15 +202,32 @@ class CustomerControllerTest {
                 .andExpect(view().name("edit-customer"));
     }
 
+
+
+
     @Test
-    void saveEdit() {
+    @Transactional
+    @Rollback
+    void delete() throws Exception {
+        mockMvc.perform(get("/customer/delete")
+                        .sessionAttrs(sessionAttrs)
+                        .param("id", "1"))
+                .andDo(print())
+                .andExpect(request().sessionAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, true))
+                .andExpect(view().name("redirect:/customer/list-customer"));
     }
 
     @Test
-    void delete() {
-    }
+    void search() throws Exception {
+        List<Customer> customerList = new ArrayList<>();
 
-    @Test
-    void search() {
+        customerList = customerService.searchListByPhone("037");
+
+        mockMvc.perform(get("/customer/search")
+                        .sessionAttrs(sessionAttrs)
+                        .param("key", "037"))
+                .andDo(print())
+                .andExpect(model().attribute("listCustomer", customerList))
+                .andExpect(view().name("get-customers"));
     }
 }

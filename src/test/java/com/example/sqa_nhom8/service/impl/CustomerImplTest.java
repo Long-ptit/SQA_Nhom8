@@ -11,10 +11,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//9
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
@@ -24,10 +26,7 @@ class CustomerImplTest {
     @Autowired
     private CustomerImpl customerService;
 
-
-
     @Test
-
     void getCustomerById() {
 
         Customer c = new Customer( "Bùi Văn Test", "0337570000", "Test@gmail.com", "Ha noi", 0,1);
@@ -47,24 +46,32 @@ class CustomerImplTest {
     @Test
     void getCustomerByPhone() {
 
+        List<Customer> list  = customerService.getAllCustomer();
+
+
+        //create
         Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c);
-
         Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c1);
         Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c2);
-        Customer c3 = new Customer( "Bùi Văn Test3", "0387570003", "Test@gmail.com", "Ha noi", 0,1);
+        Customer c3 = new Customer( "Bùi Văn Test3", "0397570003", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c3);
 
-        List<Customer> listPhone = customerService.getCustomerByPhone("011");
+        List<Customer> listSauThem  = customerService.getAllCustomer();
+        int sl =listSauThem.size();
+
+        //test nhap gan dung
+        List<Customer> listPhone = new ArrayList<>();
+        listPhone = customerService.getCustomerByPhone("0117");
         assertEquals(3, listPhone.size());
 
         listPhone = customerService.getCustomerByPhone("");
-        assertEquals(4, listPhone.size());
+        assertEquals(sl, listPhone.size() );
 
         listPhone = customerService.getCustomerByPhone("    " );
-        assertEquals(0, listPhone.size());
+        assertEquals(sl, listPhone.size());
 
         listPhone = customerService.getCustomerByPhone(c1.getPhone());
         assertEquals(1, listPhone.size());
@@ -76,15 +83,17 @@ class CustomerImplTest {
         assertEquals(0, listPhone.size());
 
 
-
     }
 
+    //get tat ca cac danh sach customer
     @Test
     void getCustomers() {
 
+        List<Customer> listC  = customerService.getCustomers();
+        int slBanDau = listC.size();
+
         Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c);
-
         Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c1);
         Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
@@ -93,7 +102,7 @@ class CustomerImplTest {
         customerService.saveCustoemr(c3);
 
         List<Customer> list = customerService.getCustomers();
-        assertEquals(4, list.size());
+        assertEquals(4 + slBanDau, list.size());
 
     }
 
@@ -107,14 +116,22 @@ class CustomerImplTest {
         Customer c1 = customerService.getCustomerById(c.getId());
         Assert.assertEquals(c.getPhone(), c1.getPhone());
 
+        //don't save sdt co san
+        Customer c2 = new Customer( "Nguen Ngoc Huyen", "0337595004", "Huyen2@gmail.com", "Haf Noi", 0,1);
+        Boolean check =  customerService.saveCustoemr(c2);
+        assertFalse(check);
+
     }
 
+    //get Tat ca khach hang dang su dung he thong
     @Test
     void getAllCustomer() {
 
+        List<Customer> l = customerService.getAllCustomer();
+        int sl = l.size();
+
         Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c);
-
         Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
         customerService.saveCustoemr(c1);
         Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
@@ -123,19 +140,18 @@ class CustomerImplTest {
         customerService.saveCustoemr(c3);
 
         List<Customer> customerList = customerService.getAllCustomer();
-        assertEquals(4, customerList.size());
+        assertEquals(sl + 4 , customerList.size());
 
     }
 
     @Test
-    @Rollback
     void edtiCustomer() {
-        Customer c = new Customer( "Hà Nội", "0737595004", "TEST@gmail.com", "test Ngoc TEst", 0,1);
+        Customer c = new Customer( "Nhữ Hoàng Anh", "0387159970", "TEST@gmail.com", "test TEst", 0,1);
         customerService.saveCustoemr(c);
 
         String ten = "Tester Bui";
-        String sdt = "0737595111";
-        String email = "1TEST@gmail.com";
+        String sdt = "0387159972";
+        String email = "TestXong@gmail.com";
         String dc = "Ha Noi";
 
         c.setName(ten);
@@ -157,8 +173,8 @@ class CustomerImplTest {
 
 
 
+    //Xoa mem
     @Test
-    @Rollback
     void deleteCustomerById() {
 
         Customer c = new Customer( "Test phan delete", "0737595000", "TEST@gmail.com", "test Delte TEst", 0,1);
@@ -174,20 +190,74 @@ class CustomerImplTest {
     }
 
     @Test
-    @Rollback
     void getOneCustomerByPhone() {
 
-        Customer c = new Customer( "Test phan delete", "0737595000", "TEST@gmail.com", "test Delte TEst", 0,1);
+        Customer c = new Customer( "Nhữ Hoàng Anh", "0387159970", "TEST@gmail.com", "test TEst", 0,1);
         customerService.saveCustoemr(c);
 
-        c = customerService.getOneCustomerByPhone("    ");
-        assertNull(c);
-        c = customerService.getOneCustomerByPhone("12321321312");
-        assertNull(c);
-        c = customerService.getOneCustomerByPhone("!!#@");
-        assertNull(c);
-//        c = customerService.getOneCustomerByPhone(c.getPhone());
-//        assertNotNull(c);
+        Customer c1 = customerService.getOneCustomerByPhone("    ");
+        assertNull(c1);
+        Customer c2 = customerService.getOneCustomerByPhone("12321321312");
+        assertNull(c2);
+        Customer c3 = customerService.getOneCustomerByPhone("!!#@");
+        assertNull(c3);
+        Customer c4 = customerService.getOneCustomerByPhone(c.getPhone());
+        assertNotNull(c4);
+
+    }
+
+    @Test
+    //search ng dang dung
+    void searchListByPhone() {
+
+        List<Customer> l = customerService.getAllCustomer();
+        int sl = l.size();
+
+        Customer c = new Customer( "Bùi Văn Test", "0117570000", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c);
+        Customer c1 = new Customer( "Bùi Văn Test1", "0117570001", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c1);
+        Customer c2 = new Customer( "Bùi Văn Test2", "0117570002", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c2);
+        Customer c3 = new Customer( "Bùi Văn Test3", "0118570003", "Test@gmail.com", "Ha noi", 0,1);
+        customerService.saveCustoemr(c3);
+
+        List<Customer> list = customerService.getAllCustomer();
+        int tong  = list.size();
+        // search ""
+        List<Customer> listSearch  = new ArrayList<>();
+
+        List<Customer> tongList = customerService.getAllCustomer();
+        int numSearch = tongList.size();
+
+        listSearch  = customerService.searchListByPhone("");
+        numSearch = listSearch.size();
+        assertEquals(tong, numSearch);
+
+        // search "      "
+        listSearch = customerService.searchListByPhone("     ");
+        numSearch = listSearch.size();
+        assertEquals(tong, numSearch);
+
+        // search "adsadasdsad"
+        listSearch = customerService.searchListByPhone("asdasdas");
+        assertNull(listSearch);
+
+        // search "@#!#@#"
+        listSearch = customerService.searchListByPhone("!@$@#@");
+        assertNull(listSearch);
+
+        listSearch  = customerService.searchListByPhone("0");
+        numSearch = listSearch.size();
+        assertEquals(tong, numSearch);
+
+        listSearch  = customerService.searchListByPhone("0117");
+        numSearch = listSearch.size();
+        assertEquals(3, numSearch);
+
+        listSearch  = customerService.searchListByPhone("0118570003");
+        numSearch = listSearch.size();
+        assertEquals(1, numSearch);
 
     }
 }

@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 
+
+//12
 @SpringBootTest
 @AutoConfigureMockMvc
 @Rollback
@@ -49,7 +51,7 @@ class BillImplTest {
     @Test
     void getAllBills() {
         List<Bill> list = billImp.getAllBills();
-        int expectedSize = 22;
+        int expectedSize = 2;
         assertEquals(expectedSize, list.size());
     }
 
@@ -65,7 +67,7 @@ class BillImplTest {
     void testSecondValueGetAllBills() {
         List<Bill> list = billImp.getAllBills();
         Bill bill = list.get(1);
-        Bill expectedBill = repository.getById(2L);
+        Bill expectedBill = repository.getById(3L);
         assertEquals(bill, expectedBill);
     }
 
@@ -73,7 +75,7 @@ class BillImplTest {
     void testFinalValueGetAllBills() {
         List<Bill> list = billImp.getAllBills();
         Bill bill = list.get(list.size() - 1);
-        Bill expectedBill = repository.getById(23L);
+        Bill expectedBill = repository.getById(3L);
         assertEquals(bill, expectedBill);
     }
 
@@ -91,7 +93,7 @@ class BillImplTest {
 
     @Test
     void testGetBillsByIDCustomerSuccess() {
-        long expectedSize = 10;
+        long expectedSize = 2;
         List<Bill> list = billImp.getBillsByIDCustomer(1);
         assertEquals(expectedSize, list.size());
     }
@@ -127,5 +129,10 @@ class BillImplTest {
 
     @Test
     void getCoinWhenSave() {
+        int value = 10000;
+        Bill bill = new Bill();
+        bill.setActualPrice(value);
+        int expectedValue = 100;
+        assertEquals(expectedValue, billImp.getCoinWhenSave(bill, new Customer()));
     }
 }

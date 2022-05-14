@@ -72,7 +72,9 @@ public class BillImpl implements BillService {
 
     @Override
     public int getCoinWhenSave(Bill bill, Customer customer) {
-        return (int) (bill.getActualPrice()*0.01);
+        System.out.println("bill discount" + bill.getDiscount());
+        System.out.println("bill total price" + bill.getTotalPrice());
+        return (int) (bill.getTotalPrice()*(100-bill.getDiscount())*0.01*0.01);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-
+//8
 @SpringBootTest
 @Transactional
 @Rollback
@@ -40,7 +40,7 @@ class GoodImplTest {
 
     @Test
     void testGetListGood() {
-        int expectedSize = 6;
+        int expectedSize = 4;
         assertEquals(expectedSize, goodImp.getListGood().size());
     }
 
@@ -65,7 +65,7 @@ class GoodImplTest {
     void testGetFinalValueListGood() {
         List<Goods> list = goodImp.getListGood();
         Goods good = list.get(list.size() - 1);
-        Goods goods1 = goodRepository.getById(6);
+        Goods goods1 = goodRepository.getById(4);
 
         assertEquals(goods1, good);
     }

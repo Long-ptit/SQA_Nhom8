@@ -186,6 +186,8 @@ public class SellController {
         bill.setCustomer(customerService.getCustomerById(id));
         bill.setDiscount(giamGia);
         Customer customer = customerService.getCustomerById(bill.getCustomer().getId());
+        bill.setDiscount(giamGia);
+        session.setAttribute(Constants.BILL, bill);
         session.setAttribute("xuNhan", billService.getCoinWhenSave(bill, customer));
         return "confirm-selling";
     }
