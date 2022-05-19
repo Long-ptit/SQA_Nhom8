@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -27,6 +28,7 @@ public class Customer {
     @Size(min = 10, max = 11, message = "Số điện thoại không được để trống, phải có 10 hoặc 11 số!")
     private String phone;
     @NotBlank(message = "Email không được để trống!")
+    @Email(message = "Trường phải là Email!")
     private String email;
     @NotBlank(message = "Địa chỉ không được để trống!")
     private String address;
