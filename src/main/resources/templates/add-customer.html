@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-
+<title>Thêm khách hàng</title>
 <head th:replace="common/default :: header" />
 
 <body style="padding: 10px 20px">
@@ -26,7 +26,7 @@
     </div>
     <div class="row">
       <p class="col-2">Số điện thoại</p>
-      <p class="col-10 text-danger"><input class="form-control" name="phone" type="text" value="" th:field="*{phone}"  th:autofocus="*{phone}" ></p>
+      <p class="col-10 text-danger"><input class="form-control" name="phone" type="number" value="" th:field="*{phone}"  th:autofocus="*{phone}" ></p>
     </div>
     <div class="row">
       <p class="col-2"></p>
