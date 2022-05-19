@@ -50,7 +50,6 @@ public class SellController {
         //bill.setCustomer(customerService.getCustomerById(1));
         //lưu list vào session
         bill.setCustomer(new Customer());
-
         if ((Boolean) session.getAttribute(Constants.MSG_ADD_BILL)) {
             model.addAttribute("message", "Thêm đơn hàng thành công");
             session.setAttribute(Constants.MSG_ADD_BILL, false);

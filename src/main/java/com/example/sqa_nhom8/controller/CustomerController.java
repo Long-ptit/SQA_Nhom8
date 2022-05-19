@@ -98,7 +98,6 @@ public class CustomerController {
                 return "edit-customer";
             }else {
                 customerService.edtiCustomer(customer.getId(), customer);
-                //cần 1 hàm check
                 session.setAttribute(Constants.MSG_EDIT_SUCCESS, true);
                 return "redirect:/customer/list-customer";
             }
@@ -109,7 +108,6 @@ public class CustomerController {
     public String delete(@RequestParam("id") int id, HttpSession session) {
         System.out.println("delete" + id);
         customerService.deleteCustomerById(id);
-        //check id còn tồn tại hay không
         session.setAttribute(Constants.MSG_DELETE_CUSTOMER_SUCCESS, true);
         return "redirect:/customer/list-customer";
     }
