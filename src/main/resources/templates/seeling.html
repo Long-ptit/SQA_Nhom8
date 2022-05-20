@@ -78,6 +78,10 @@
         height: 400px;
         overflow-y: scroll;
     }
+    .bangKH{
+        height: 250px;
+        overflow-y: scroll;
+    }
 
     .footer-left-title,
     .footer-right-title {
@@ -145,131 +149,131 @@
 <h1 style="margin-top: 60px" >Bán hàng</h1>
 <a  style="padding: 10px 16px; color: white" class="btn btn-primary" th:href="@{/home}" role="button">Quay lại</a>
 <div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class=" mb-4" id="myTableKH" style="width: 1150px;">
-            <div class=" row">
-                <div class="p-3 col-6">
-                    <div class="input-group">
-                        <b class="d-flex align-items-center">Tìm kiếm khách hàng theo số điện thoại:</b>
-                        <div class="ms-2 form-outline">
-                            <input class="form-control" type="text" id="myInputKH" onkeyup="myFunctionKH()"
-                                   placeholder="Nhập số điện thoại" title="Type in a name" autofocus/>
-                        </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class=" mb-4" id="myTableKH" style="width: 1150px;">
+        <div class=" row">
+            <div class="p-3 col-6">
+                <div class="input-group">
+                    <b class="d-flex align-items-center">Tìm kiếm khách hàng theo số điện thoại:</b>
+                    <div class="ms-2 form-outline">
+                        <input class="form-control" type="text" id="myInputKH" onkeyup="myFunctionKH()"
+                               placeholder="Nhập số điện thoại" title="Type in a name" autofocus/>
                     </div>
-                </div>
-                <div class="p-3 col-6 d-flex justify-content-end">
-                    <a th:href="@{/customer/add}">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-user-plus"></i>
-                            Thêm mới khách hàng
-                        </button>
-                    </a>
                 </div>
             </div>
-            <div class="anyClass">
-                <div class="locKH row d-flex justify-content-center">
-                    <div class="table-KH " id="myTableKH">
-                        <table class="table table-hover">
-                            <thead class="">
-                            <tr>
-                                <th scope="col">Mã khách hàng</th>
-                                <th scope="col">Họ và tên</th>
-                                <th scope="col">Số điện thoại</th>
-                                <th scope="col">Địa chỉ</th>
-                                <th scope="col">Chọn</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <div>
-                                <tr th:each="kh : ${session.listKhachHang}">
-                                    <td th:text="${kh.id}"></td>
-                                    <td th:text="${kh.name}"></td>
-                                    <td th:text="${kh.phone}"></td>
-                                    <td th:text="${kh.address}"></td>
-                                    <td><a name="" id="" th:href="@{/banhang/clickKhachHang(id=${kh.id})}"
-                                           class="btn btn-primary chonKH" role="button">Chọn</a></td>
-                                </tr>
-                            </div>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="p-3 col-6 d-flex justify-content-end">
+                <a th:href="@{/customer/add}">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Thêm mới khách hàng
+                    </button>
+                </a>
             </div>
         </div>
-    </div>
-    <div class="row d-flex justify-content-center">
-        <div class="formBanHang col-5 ">
-            <div class="boloc d-flex justify-content-center">
-                <div class="p-12 mb-3 ">
-                    <div class="input-group">
-                        <b class="d-flex align-items-center">Tìm kiếm sản phẩm theo tên:</b>
-                        <div class="ms-2 form-outline">
-                            <input class="form-control" type="text" id="myInput" onkeyup="myFunction()"
-                                   placeholder="Nhập tên sản phẩm" title="Type in a name"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <form th:action="@{/banhang/addsanpham}" method="post">
-                <div class="anyClass" id="myTableItem">
-                    <div class="table-KH " id="myTable">
-                        <span style="color:red" th:text="${error_chon}"> </span>
-                        <table class="table table-hover">
-                            <thead class="">
-                            <tr>
-                                <th scope="col">Mã sản phẩm</th>
-                                <th scope="col">Tên phẩm</th>
-                                <th scope="col">Đơn vị</th>
-                                <th scope="col">Đơn giá</th>
-                                <th scope="col">Chọn</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="mh : ${session.listMatHang}">
-                                <td th:text="${mh.id}"></td>
-                                <td th:text="${mh.name}"></td>
-                                <td th:text="${mh.unit}"></td>
-                                <td th:text="${#numbers.formatInteger(mh.price,3,'COMMA')}"></td>
-                                <td><input class="form-check-input checkbox" type="radio" id="exampleRadios2"
-                                           th:value="${mh.id}" name="key"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center mt-4">
-                    <div class=" input-group">
-                        <label for="">Nhập số lượng: </label>
-                        <input value="" class="form-control ms-2" name="soLuong" required type="number" th:min="1">
-                        <button type="submit" class="btn btn-primary" id="themsp">Thêm</button>
-                    </div>
-                </div>
-                <span style="color:red" th:text="${error_so_luong}"> </span>
-            </form>
-        </div>
-        <div class="ms-1 formBanHang col-6">
-            <h5 th:if="${session.bill.getCustomer().name != null}" th:text="'Tên khách hàng: ' + ${session.bill.getCustomer.name}"></h5>
-            <h5 th:if="${session.bill.getCustomer().phone != null}"  th:text="'Số điện thoại: ' + ${session.bill.getCustomer.phone}"></h5>
-            <h5 th:if="${session.bill.getCustomer().name != null}" th:text="'Mã khách hàng: ' + ${session.bill.getCustomer.id}"></h5>
-            <span style="color:red" th:text="${error_khach_hang}"></span>
-            <div class="anyClass">
-                <div class="table-KH " id="myTable">
-                    <table class="table table-hover"  style="align-items: center">
+        <div class="bangKH">
+            <div class="locKH row d-flex justify-content-center">
+                <div class="table-KH " id="myTableKH">
+                    <table class="table table-hover">
                         <thead class="">
                         <tr>
-                            <th scope="col" style="vertical-align: middle;">STT</th>
-                            <th scope="col" style="vertical-align: middle;">Mã sản phẩm</th>
-                            <th scope="col" style="vertical-align: middle;">Tên sản phẩm</th>
-                            <th scope="col" style="vertical-align: middle;">Số lượng</th>
-                            <th scope="col" style="vertical-align: middle;">Đơn giá</th>
-                            <th scope="col" style="vertical-align: middle;">Thành tiền</th>
-                            <th scope="col" style="vertical-align: middle;">Chọn</th>
+                            <th scope="col">Mã khách hàng</th>
+                            <th scope="col">Họ và tên</th>
+                            <th scope="col">Số điện thoại</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Chọn</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <form th:action="@{/banhang/suaSanPham}" method="post">
+                        <div>
+                            <tr th:each="kh : ${session.listKhachHang}">
+                                <td th:text="${kh.id}"></td>
+                                <td th:text="${kh.name}"></td>
+                                <td th:text="${kh.phone}"></td>
+                                <td th:text="${kh.address}"></td>
+                                <td><a name="" id="" th:href="@{/banhang/clickKhachHang(id=${kh.id})}"
+                                       class="btn btn-primary chonKH" role="button">Chọn</a></td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="formBanHang col-5 ">
+        <div class="boloc d-flex justify-content-center">
+            <div class="p-12 mb-3 ">
+                <div class="input-group">
+                    <b class="d-flex align-items-center">Tìm kiếm sản phẩm theo tên:</b>
+                    <div class="ms-2 form-outline">
+                        <input class="form-control" type="text" id="myInput" onkeyup="myFunction()"
+                               placeholder="Nhập tên sản phẩm" title="Type in a name"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <form th:action="@{/banhang/addsanpham}" method="post">
+            <div class="anyClass" id="myTableItem">
+                <div class="table-KH " id="myTable">
+                    <span style="color:red" th:text="${error_chon}"> </span>
+                    <table class="table table-hover">
+                        <thead class="">
+                        <tr>
+                            <th scope="col">Mã sản phẩm</th>
+                            <th scope="col">Tên phẩm</th>
+                            <th scope="col">Đơn vị</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Chọn</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="mh : ${session.listMatHang}">
+                            <td th:text="${mh.id}"></td>
+                            <td th:text="${mh.name}"></td>
+                            <td th:text="${mh.unit}"></td>
+                            <td th:text="${#numbers.formatInteger(mh.price,3,'COMMA')}"></td>
+                            <td><input class="checkbox" type="radio" id="exampleRadios2"
+                                       th:value="${mh.id}" name="key"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center mt-4">
+                <div class=" input-group">
+                    <label for="">Nhập số lượng: </label>
+                    <input value="" class="form-control ms-2" name="soLuong" required type="number" th:min="1">
+                    <button type="submit" class="btn btn-primary" id="themsp">Thêm</button>
+                </div>
+            </div>
+            <span style="color:red" th:text="${error_so_luong}"> </span>
+        </form>
+    </div>
+    <div class="ms-1 formBanHang col-6">
+        <h5 th:if="${session.bill.getCustomer().name != null}" th:text="'Tên khách hàng: ' + ${session.bill.getCustomer.name}"></h5>
+        <h5 th:if="${session.bill.getCustomer().phone != null}"  th:text="'Số điện thoại: ' + ${session.bill.getCustomer.phone}"></h5>
+        <h5 th:if="${session.bill.getCustomer().name != null}" th:text="'Mã khách hàng: ' + ${session.bill.getCustomer.id}"></h5>
+        <span style="color:red" th:text="${error_khach_hang}"></span>
+        <div class="anyClass">
+            <div class="table-KH " id="myTable">
+                <table class="table table-hover"  style="align-items: center">
+                    <thead class="">
+                    <tr>
+                        <th scope="col" style="vertical-align: middle;">STT</th>
+                        <th scope="col" style="vertical-align: middle;">Mã sản phẩm</th>
+                        <th scope="col" style="vertical-align: middle;">Tên sản phẩm</th>
+                        <th scope="col" style="vertical-align: middle;">Số lượng</th>
+                        <th scope="col" style="vertical-align: middle;">Đơn giá</th>
+                        <th scope="col" style="vertical-align: middle;">Thành tiền</th>
+                        <th scope="col" style="vertical-align: middle;">Chọn</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <form th:action="@{/banhang/suaSanPham}" method="post">
                         <tr th:each="cart,index : ${session.listCart}">
                             <td style="vertical-align: middle;" th:text="${index.index + 1}"></td>
                             <td style="vertical-align: middle;" th:text="${cart.goods.id}"></td>
@@ -285,117 +289,117 @@
                                 <input th:value="${cart.goods.id}" name="id" hidden>
                             </td>
                         </tr>
-                        </tbody>
-                        </form>
-                    </table>
-                </div>
-                <form th:action="@{/banhang/confirm}" method="post">
-                    <div class="row">
-                        <div class=" d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
-                             th:text="'Tổng số lượng: ' + ${session.bill.totalAmount}">Tổng số lượng
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
-                             th:text="'Tổng tiền (VND) : ' + ${#numbers.formatInteger(session.bill.totalPrice,3,'COMMA')}">Tổng tiền: 12
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="d-flex justify-content-start me-4 mb-1 align-items-center " style="font-weight: bold;" >
-                            Giảm giá:
-                            <input type="number" class="form-control ms-1" style="width: 2cm; height: 30px; "
-                                   name="giamGia" value="0" min="0" max="100"></div>
-
-                    </div>
-                    <div class="row">
-                        <div class="d-flex justify-content-start me-4 mb-1 "
-                             style="font-weight: bold;  align-items: center" ;>
-                            Sử dụng điểm tích lũy:
-                            <input type="checkbox" th:value="0" name="xu" style="margin-top: 4px; margin-left: 5px">
-                        </div>
-                        <input th:value="${session.bill.getCustomer.id}" hidden name="id">
-                        <!--                    <input type="checkbox" th:value="0" name="xu" th:checked="${session.isUsingXu} ? 'checked'" ></div>-->
-                    </div>
-
-                    <div class="row">
-                        <div class="d-flex justify-content-start me-4 mb-1 "
-                             style="font-weight: bold; color: red">
-                            <span style="color:red" th:text="${error_giam_gia}"></span>
-
-                        </div>
-                    </div>
-
-                    <div class="row" th:if="${session.bill.customer.getName() != null}">
-                        <div class="d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
-                             th:text="'Tổng điểm tích lũy (VND) : ' + ${#numbers.formatInteger(session.bill.customer.totalCoins,3,'COMMA')}">Tổng tiền: 12
-                        </div>
-                    </div>
-                    <hr>
+                    </tbody>
+                    </form>
+                </table>
             </div>
-            <div class="d-flex justify-content-end">
-                <div class="d-inline tieptuc mt-3">
-                    <button class="btn btn-primary " type="submit"> Xác nhận hóa đơn</button>
-                </div>
-            </div>
+            <form th:action="@{/banhang/confirm}" method="post">
 
-            </form>
         </div>
 
-        <!-- chân trang -->
-        <script src="http://code.jquery.com/jquery-1.10.2.js "></script>
-        <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js "></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js "></script>
+        <div class="row">
+            <div class=" d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                 th:text="'Tổng số lượng: ' + ${session.bill.totalAmount}">Tổng số lượng
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                 th:text="'Tổng tiền (VND) : ' + ${#numbers.formatInteger(session.bill.totalPrice,3,'COMMA')}">Tổng tiền: 12
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="d-flex justify-content-start me-4 mb-1 align-items-center " style="font-weight: bold;" >
+                Giảm giá:
+                <input type="number" class="form-control ms-1" style="width: 2cm; height: 30px; "
+                       name="giamGia" value="0" min="0" max="100" required></div>
+
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-start me-4 mb-1 "
+                 style="font-weight: bold;  align-items: center" ;>
+                Sử dụng điểm tích lũy:
+                <input type="checkbox" th:value="0" name="xu" style="margin-top: 4px; margin-left: 5px">
+            </div>
+            <input th:value="${session.bill.getCustomer.id}" hidden name="id">
+            <!--                    <input type="checkbox" th:value="0" name="xu" th:checked="${session.isUsingXu} ? 'checked'" ></div>-->
+        </div>
+
+        <div class="row">
+            <div class="d-flex justify-content-start me-4 mb-1 "
+                 style="font-weight: bold; color: red">
+                <span style="color:red" th:text="${error_giam_gia}"></span>
+
+            </div>
+        </div>
+
+        <div class="row" th:if="${session.bill.customer.getName() != null}">
+            <div class="d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                 th:text="'Tổng điểm tích lũy (VND) : ' + ${#numbers.formatInteger(session.bill.customer.totalCoins,3,'COMMA')}">Tổng tiền: 12
+            </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" type="submit"> Xác nhận hóa đơn</button>
+        </div>
+
+        </form>
+    </div>
+
+    <!-- chân trang -->
+    <script src="http://c...content-available-to-author-only...y.com/jquery-1.10.2.js "></script>
+    <script src="http://c...content-available-to-author-only...y.com/ui/1.11.2/jquery-ui.js "></script>
+    <script src="http://m...content-available-to-author-only...n.com/bootstrap/3.2.0/js/bootstrap.min.js "></script>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js "></script>
+    <script src="https://c...content-available-to-author-only...e.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js "></script>
 
 
-        <!-- tìm kiếm sp -->
-        <script type="text/javascript">
-            function myFunction() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("myTableItem");
-                tr = table.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[1];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+    <!-- tìm kiếm sp -->
+    <script type="text/javascript">
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTableItem");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
                     }
                 }
             }
-        </script>
-        <script th:if="${message != null}" th:inline="javascript" >
-            alert([[${message}]])
-        </script>
-        <script>
-            function myFunctionKH() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("myInputKH");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("myTableKH");
-                tr = table.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[2];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+        }
+    </script>
+    <script th:if="${message != null}" th:inline="javascript" >
+        alert([[${message}]])
+    </script>
+    <script>
+        function myFunctionKH() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInputKH");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTableKH");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
                     }
                 }
             }
-        </script>
-        <script src="/static/JS/BanHang.js"></script>
+        }
+    </script>
+    <script src="/static/JS/BanHang.js"></script>
 </body>
 
 </html>

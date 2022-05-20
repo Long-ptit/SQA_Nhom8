@@ -79,7 +79,6 @@ public class BillImpl implements BillService {
 
     @Override
     public List<Bill> searchBillByPhone(String text) {
-        try {
             String s = text.trim();
             System.out.println("Text: " + s);
             List<Bill> listBills = new ArrayList<>();
@@ -99,25 +98,8 @@ public class BillImpl implements BillService {
                 //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
             }
             else {
-                customerList = customerService.getCustomerByPhone(s);
-                System.out.println("Dau Vao la so dien thoai");
-                if (customerList.size() == 0) {
-                    System.out.println("So dien thoai sai");
-                    return null;
-                    //model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
-                } else {
                     System.out.println("Co ban ghi");
-                    List<Integer> listID = new ArrayList<>();
-                    for(int i=0; i<customerList.size(); i++){
-                        listID.add(customerList.get(i).getId());
-                    }
-                    for (int i=0; i <listID.size(); i++){
-                        List<Bill> billsById = getBillsByIDCustomer(listID.get(i));
-                        for (Bill b : billsById){
-                            listBills.add(b);
-                        }
-                    }
-                    System.out.println("Size Bill : " + listBills.size());
+                    listBills = repository.searchBillByPhone(text);
                     if(listBills.size() > 0 ){
                         return listBills;
                      //   model.addAttribute("listBills", listBills);
@@ -125,16 +107,7 @@ public class BillImpl implements BillService {
                         return null;
                        // model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
                     }
-
-                }
-
             }
-
-        } catch (Exception e) {
-            System.out.println("Loi Parser");
-            return null;
-//            model.addAttribute("notify", "Dữ liệu không khớp, hoặc không tồn tại, vui lòng thử lại!");
-        }
     }
 
 

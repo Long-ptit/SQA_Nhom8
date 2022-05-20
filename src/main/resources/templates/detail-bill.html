@@ -150,7 +150,7 @@
             <h3> HÓA ĐƠN BÁN HÀNG </h3>
             <h5 th:text="'Thời gian mua hàng: ' + ${bill.date}" style="margin-top: 10px"></h5>
             <h5 th:text="'Tên khách hàng: ' + ${bill.customerName}"></h5>
-            <h5 th:text="'Số điện thoại gốc: ' + ${bill.customerPhone}"></h5>
+            <h5 th:text="'Số điện thoại: ' + ${bill.customerPhone}"></h5>
             <h5 th:text="'Tên nhân viên: ' + ${bill.staff.name}"></h5>
             <h5 th:text="'Số mã nhân viên: ' + ${bill.staff.id}"></h5>
             <div class="anyClass">
@@ -179,6 +179,11 @@
                     </table>
                 </div>
 
+
+
+
+            </div>
+            <div>
                 <div class="row">
                     <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
                          th:text="'Tổng số lượng: ' + ${bill.totalAmount}">Tổng số lượng
@@ -204,7 +209,10 @@
                          th:text="'Tiền cuối cùng  (VND) : ' + ${#numbers.formatInteger(bill.actualPrice,3,'COMMA')} + ' vnđ'"></div>
                     <input id="tongTien" th:value="${bill.actualPrice}" hidden/>
                 </div>
-
+                <div class="row">
+                    <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
+                         th:text="'Điểm tích lũy thêm sau khi mua đơn hàng (VND): ' +  ${#numbers.formatInteger(bill.totalPrice*(bill.getDiscount()-100)*-0.01*0.01,3,'COMMA')}"></div>
+                </div>
                 <div class="row">
                     <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
                          th:text="'Tiền khách trả (VND) : ' + ${#numbers.formatInteger(bill.pricePay,3,'COMMA')} + ' vnđ'"></div>
@@ -214,8 +222,6 @@
                     <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
                          th:text="'Tiền trả lại (VND) : ' + ${#numbers.formatInteger(bill.priceBack,3,'COMMA')}"></div>
                 </div>
-
-
             </div>
 
             <div class="d-flex justify-content-between mt-3" >

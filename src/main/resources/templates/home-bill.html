@@ -28,7 +28,7 @@
 
 <h5 class="text-danger" th:text="${notify}"></h5>
 
-<div class="table-wrapper-scroll-y my-custom-scrollbar">
+<div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 400px">
 
     <table class="table table-bordered table-striped mb-0">
         <thead>
@@ -36,7 +36,7 @@
             <th scope="col">STT</th>
             <th scope="col">Mã hóa đơn</th>
             <th scope="col">Tên khách hàng</th>
-            <th scope="col">Số điện thoại hiện tại</th>
+            <th scope="col">Số điện thoại</th>
             <th scope="col">Mã nhân viên </th>
             <th scope="col">Tên nhân viên </th>
             <th scope="col">Thời gian thanh toán</th>
@@ -48,7 +48,7 @@
             <th scope="row" th:text="*{index.index + 1}"></th>
             <th  th:text="*{bill.id}"></th>
             <td th:text="*{bill.customerName}" ></td>
-            <td th:text="*{bill.customer.phone}" ></td>
+            <td th:text="*{bill.customerPhone}" ></td>
             <td th:text="*{bill.staff.id}" ></td>
             <td th:text="*{bill.staff.name}" ></td>
             <td th:text="*{bill.date}"></td>

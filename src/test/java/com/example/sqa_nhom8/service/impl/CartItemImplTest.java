@@ -36,6 +36,7 @@ class CartItemImplTest {
     @Autowired
     BillService billService;
 
+
     @Test
     @Rollback
     @Transactional
@@ -177,8 +178,6 @@ class CartItemImplTest {
     }
 
     @Test
-    @Rollback
-    @Transactional
     void testHandleDeleteCartItem() {
         List<CartItem> list = new ArrayList<>();
         CartItem cartItem1 = new CartItem();

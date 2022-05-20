@@ -75,7 +75,7 @@
     }
 
     .anyClass {
-        height: 400px;
+        height: 300px;
         overflow-y: scroll;
     }
 
@@ -88,6 +88,10 @@
 
     .footer-left-item {
         margin-top: 5mm;
+    }
+    .bangKH{
+        height: 250px;
+        overflow-y: scroll;
     }
 
     .formThemKH {
@@ -176,6 +180,10 @@
                     </table>
                 </div>
 
+
+
+            </div>
+            <div>
                 <div class="row">
                     <div class="col-7 d-flex justify-content-start me-4 mb-1 " style="font-weight: bold;"
                          th:text="'Tổng số lượng: ' + ${session.bill.totalAmount}">Tổng số lượng
@@ -225,20 +233,19 @@
                              th:text="${error}">
                         </div>
                     </div>
-
             </div>
-
+<hr>
             <div class="d-flex justify-content-between mt-3" >
                 <div>
                     <button class="btn btn-primary" type="button" onclick="history.back()">Quay lại</button>
                 </div>
                 <div>
-                        <div class="d-flex justify-content-end">
-                            <div class="d-inline tieptuc ">
-                                <input id="tienThuaInput" hidden name="tienThua" value="0">
-                                <button class="btn btn-primary" role="submit"> Lưu</button>
-                            </div>
+                    <div class="d-flex justify-content-end">
+                        <div class="d-inline tieptuc ">
+                            <input id="tienThuaInput" hidden name="tienThua" value="0">
+                            <button class="btn btn-primary" role="submit"> Lưu</button>
                         </div>
+                    </div>
                 </div>
             </div>
             </form>

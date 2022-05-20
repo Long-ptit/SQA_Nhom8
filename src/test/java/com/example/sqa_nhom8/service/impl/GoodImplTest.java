@@ -40,7 +40,7 @@ class GoodImplTest {
 
     @Test
     void testGetListGood() {
-        int expectedSize = 4;
+        int expectedSize = 11;
         assertEquals(expectedSize, goodImp.getListGood().size());
     }
 
@@ -65,7 +65,7 @@ class GoodImplTest {
     void testGetFinalValueListGood() {
         List<Goods> list = goodImp.getListGood();
         Goods good = list.get(list.size() - 1);
-        Goods goods1 = goodRepository.getById(4);
+        Goods goods1 = goodRepository.getById(12);
 
         assertEquals(goods1, good);
     }

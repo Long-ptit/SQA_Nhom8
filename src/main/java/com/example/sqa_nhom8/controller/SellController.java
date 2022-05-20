@@ -215,14 +215,16 @@ public class SellController {
         Staff staff = (Staff) session.getAttribute("staff");
         billBanHang.setStaff(staff);
         Bill billBH = billService.saveItem(billBanHang);
-        for (CartItem item : cartList) {
-            item.setBill(billBH);
-            cartItemService.saveItem(item);
+        if (billBH == billService.getBillByIdBill(billBH.getId())) {
+            for (CartItem item : cartList) {
+                item.setBill(billBH);
+                cartItemService.saveItem(item);
+            }
+            session.setAttribute(Constants.MSG_ADD_BILL, true);
+            return "redirect:/banhang/home";
+        } else {
+            return "redirect:/banhang/home";
         }
-        //back back
-        //check if thêm thành công thì quay lại với message
-        session.setAttribute(Constants.MSG_ADD_BILL, true);
-        return "redirect:/banhang/home";
     }
 
 }
